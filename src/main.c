@@ -6,7 +6,7 @@
 /*   By: manu <manu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/20 19:14:56 by manu              #+#    #+#             */
-/*   Updated: 2022/06/20 20:06:21 by manu             ###   ########.fr       */
+/*   Updated: 2022/06/20 20:42:10 by manu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,12 @@
 #include "ft_printf.h"
 #include "error.h"
 #include "moves_push.h"
-#include "print_stack.h"
+#include "stack_printing.h"
 #include "moves_swap.h"
 #include "moves_rotate.h"
 #include "moves_reverse_rotate.h"
 #include "number_validation.h"
+#include "stack_sorting.h"
 
 int	validate_input_parameters(int argc, char *argv[])
 {
@@ -90,6 +91,8 @@ int	main(int argc, char *argv[])
 		exit_with_error();
 	if (ft_lstsize(state.stack_a) < 2)
 		exit(0); // free
+	if (is_stack_sorted(state.stack_a))
+		exit(0);
 	print_stack_a(&state);
 	push_top_a_to_top_b(&state);
 	push_top_a_to_top_b(&state);
