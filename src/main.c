@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: manu <manu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/06/15 15:55:57 by manu              #+#    #+#             */
-/*   Updated: 2022/06/15 19:50:36 by manu             ###   ########.fr       */
+/*   Created: 2022/06/20 19:14:56 by manu              #+#    #+#             */
+/*   Updated: 2022/06/20 19:14:57 by manu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,11 @@
 #include "push_swap.h"
 #include "ft_printf.h"
 #include "error.h"
+#include "moves_push.h"
+#include "print_stack.h"
+#include "moves_swap.h"
+#include "moves_rotate.h"
+#include "moves_reverse_rotate.h"
 
 int	validate_input_parameters(int argc, char *argv[])
 {
@@ -25,13 +30,34 @@ int	validate_input_parameters(int argc, char *argv[])
 	return (1);
 }
 
-int	*str_to_number(char *str)
+t_number	*str_to_number(char *str)
 {
-	int	*number;
+	t_number	*number;
 
-	number = (int *)malloc(sizeof(int));
-	(*number) = ft_atoi(str);
+	number = (t_number *)malloc(sizeof(t_number));
+	if (!number)
+		exit_with_memory_error();
+	number->n = ft_atoi(str);
 	return (number);
+}
+
+int	space_separated_numbers_to_stack(char *numbers, t_list **stack)
+{
+	int		index;
+	char	**split;
+
+	if (!stack || !numbers)
+		return (0);
+	split = ft_split(numbers, ' ');
+	if (!split)
+		return (0);
+	index = 0;
+	while (split[index])
+	{
+		ft_lstadd_back(stack, ft_lstnew(str_to_number(split[index])));
+		index++;
+	}
+	return (1);
 }
 
 int	get_numbers_from_input(int argc, char *argv[], t_state *state)
@@ -43,21 +69,10 @@ int	get_numbers_from_input(int argc, char *argv[], t_state *state)
 	index = 1;
 	while (index < argc)
 	{
-		ft_lstadd_back(&state->stack_a, ft_lstnew(str_to_number(argv[index])));
-		ft_printf("N = %s\n", argv[index]);
+		space_separated_numbers_to_stack(argv[index], &state->stack_a);
 		index++;
 	}
 	return (1);
-}
-
-void	print_list_element_content(void *content)
-{
-	if (!content)
-	{
-		ft_printf("No content\n");
-		return ;
-	}
-	ft_printf("Content = %d\n", *((int *)content));
 }
 
 int	main(int argc, char *argv[])
@@ -70,8 +85,20 @@ int	main(int argc, char *argv[])
 		exit_with_error();
 	if (!get_numbers_from_input(argc, argv, &state))
 		exit_with_error();
-	ft_printf("Push Swap ...\n");
-	ft_lstiter(state.stack_a, print_list_element_content);
+	print_stack_a(&state);
+	push_top_a_to_top_b(&state);
+	push_top_a_to_top_b(&state);
+	push_top_a_to_top_b(&state);
+	push_top_a_to_top_b(&state);
+	push_top_a_to_top_b(&state);
+	// rotate_stack_a(&state);
+	// rotate_stack_b(&state);
+	// rotate_stack_a_and_b(&state);
+	// reverse_rotate_stack_a(&state);
+	// reverse_rotate_stack_b(&state);
+	reverse_rotate_stack_a_and_b(&state);
+	print_stack_a(&state);
+	print_stack_b(&state);
 	state.stack_a = NULL;
 	state.stack_b = NULL;
 	return (0);
