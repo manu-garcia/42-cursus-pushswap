@@ -6,7 +6,7 @@
 /*   By: manu <manu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/20 19:14:56 by manu              #+#    #+#             */
-/*   Updated: 2022/06/20 19:14:57 by manu             ###   ########.fr       */
+/*   Updated: 2022/06/20 20:06:21 by manu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 #include "moves_swap.h"
 #include "moves_rotate.h"
 #include "moves_reverse_rotate.h"
+#include "number_validation.h"
 
 int	validate_input_parameters(int argc, char *argv[])
 {
@@ -34,6 +35,8 @@ t_number	*str_to_number(char *str)
 {
 	t_number	*number;
 
+	if (!is_valid_number(str))
+		exit_with_error();
 	number = (t_number *)malloc(sizeof(t_number));
 	if (!number)
 		exit_with_memory_error();
@@ -47,7 +50,7 @@ int	space_separated_numbers_to_stack(char *numbers, t_list **stack)
 	char	**split;
 
 	if (!stack || !numbers)
-		return (0);
+		exit_with_error();
 	split = ft_split(numbers, ' ');
 	if (!split)
 		return (0);
@@ -85,6 +88,8 @@ int	main(int argc, char *argv[])
 		exit_with_error();
 	if (!get_numbers_from_input(argc, argv, &state))
 		exit_with_error();
+	if (ft_lstsize(state.stack_a) < 2)
+		exit(0); // free
 	print_stack_a(&state);
 	push_top_a_to_top_b(&state);
 	push_top_a_to_top_b(&state);
