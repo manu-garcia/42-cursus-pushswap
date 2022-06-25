@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: manu <manu@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: manugarc <manugarc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/20 19:14:56 by manu              #+#    #+#             */
-/*   Updated: 2022/06/20 20:42:10 by manu             ###   ########.fr       */
+/*   Updated: 2022/06/25 18:55:43 by manugarc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h> //exit
+#include <stdio.h>
 
 #include "push_swap.h"
 #include "ft_printf.h"
@@ -22,6 +23,22 @@
 #include "moves_reverse_rotate.h"
 #include "number_validation.h"
 #include "stack_sorting.h"
+#include "stack_node.h"
+#include "libft.h"
+
+// push_top_a_to_top_b(&state);
+// push_top_a_to_top_b(&state);
+// push_top_a_to_top_b(&state);
+// push_top_a_to_top_b(&state);
+// push_top_a_to_top_b(&state);
+// rotate_stack_a(&state);
+// rotate_stack_b(&state);
+// rotate_stack_a_and_b(&state);
+// reverse_rotate_stack_a(&state);
+// reverse_rotate_stack_b(&state);
+// reverse_rotate_stack_a_and_b(&state);
+// print_stack_a(&state);
+// print_stack_b(&state);
 
 int	validate_input_parameters(int argc, char *argv[])
 {
@@ -79,6 +96,59 @@ int	get_numbers_from_input(int argc, char *argv[], t_state *state)
 	return (1);
 }
 
+// int	get_distance_to_sorted_position(long int n, t_list *stack)
+// {
+// 	int distance_to_sorted_position;
+
+// 	distance_to_sorted_position = 0;
+// 	while (stack && n < get_node_number(stack))
+// 	{
+// 		distance_to_sorted_position++;
+// 		stack = stack->next;
+// 	}
+// 	return (distance_to_sorted_position);
+// }
+
+int	get_distance_to_sorted_position(long int n, t_list *stack, int size)
+{
+	int distance_to_sorted_position;
+	int index;
+
+	index = 0;
+	distance_to_sorted_position = 0;
+	if (!size)
+		return 0;
+	if (size == 1)
+	{
+		if (n > get_node_number(stack))
+			return (0);
+		else
+			return (1);
+	}
+	while (stack)
+	{
+		if (index == 0)
+		{
+			if (get_node_number(ft_lstlast(stack)) > n && n > get_node_number(stack))
+				break;
+		}
+		else if (index == size - 1)
+		{
+			if (get_node_number(stack) > n && n > get_node_number(stack))
+				break;
+		}
+		else
+		{
+			if (get_node_number(stack) > n && n > get_node_number(stack->next))
+				break;
+		}
+		distance_to_sorted_position++;
+		stack = stack->next;
+		index++;
+	}
+	return (distance_to_sorted_position);
+}
+
 int	main(int argc, char *argv[])
 {
 	t_state	state;
@@ -93,20 +163,68 @@ int	main(int argc, char *argv[])
 		exit(0); // free
 	if (is_stack_sorted(state.stack_a))
 		exit(0);
-	print_stack_a(&state);
-	push_top_a_to_top_b(&state);
-	push_top_a_to_top_b(&state);
-	push_top_a_to_top_b(&state);
-	push_top_a_to_top_b(&state);
-	push_top_a_to_top_b(&state);
-	// rotate_stack_a(&state);
-	// rotate_stack_b(&state);
-	// rotate_stack_a_and_b(&state);
-	// reverse_rotate_stack_a(&state);
-	// reverse_rotate_stack_b(&state);
-	reverse_rotate_stack_a_and_b(&state);
-	print_stack_a(&state);
-	print_stack_b(&state);
+
+	int size = ft_lstsize(state.stack_a);
+	int i = 0;
+	int	number_rotates = 0;
+	int max = 0;
+	int stop = 0;
+
+	while (i < size)
+	{
+		if (get_node_number(state.stack_a) == 93)
+		{
+			stop = 1;
+			get_distance_to_sorted_position(get_node_number(state.stack_a), state.stack_b, ft_lstsize(state.stack_b));
+
+			print_stack_a(&state);
+			print_stack_b(&state);
+		}
+		if (max < get_node_number(state.stack_a))
+			max = get_node_number(state.stack_a);
+		if(i == 0)
+			push_top_a_to_top_b(&state);
+		else
+		{
+			number_rotates = get_distance_to_sorted_position(get_node_number(state.stack_a), state.stack_b, ft_lstsize(state.stack_b));
+			printf("get_distance_to_sorted_position of number %ld is %d\n", get_node_number(state.stack_a), number_rotates);
+			if (!number_rotates)
+				push_top_a_to_top_b(&state);
+			else if (number_rotates < (size/2))
+			{
+				rotate_stack_b_n_times(&state, number_rotates);
+				push_top_a_to_top_b(&state);
+				// if(get_node_number(state.stack_b) < get_node_number(state.stack_b->next))
+				// 	rotate_stack_b(&state);
+			}
+			else
+			{
+				// reverse_rotate_stack_b_n_times(&state, size - number_rotates);
+				push_top_a_to_top_b(&state);
+				// if(get_node_number(state.stack_b) < get_node_number(state.stack_b->next))
+				// 	rotate_stack_b(&state);
+			}
+		}
+		print_stack_a(&state);
+		print_stack_b(&state);
+
+		i++;
+	}
+
+
+	// while(!is_stack_reversed_sorted(state.stack_b))
+	// {
+	// 	rotate_stack_b(&state);
+	// 	print_stack_a(&state);
+	// 	print_stack_b(&state);
+	// }
+
+	// int n = size;
+	// while(n--)
+	// 	push_top_b_to_top_a(&state);
+
+	// print_stack_a(&state);
+	// print_stack_b(&state);
 	state.stack_a = NULL;
 	state.stack_b = NULL;
 	return (0);

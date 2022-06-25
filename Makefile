@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: manu <manu@student.42.fr>                  +#+  +:+       +#+         #
+#    By: manugarc <manugarc@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/23 20:21:02 by manu              #+#    #+#              #
-#    Updated: 2022/06/20 20:34:10 by manu             ###   ########.fr        #
+#    Updated: 2022/06/25 19:14:17 by manugarc         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -50,5 +50,8 @@ fclean: clean
 
 norminette:
 	norminette -R CheckForbiddenSourceHeader | grep Error
+
+test: all
+	./push_swap "37 60 64 100 3 98 39 93 1 94"
 
 .PHONY: all clean fclean re
