@@ -6,10 +6,11 @@
 /*   By: manu <manu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/20 19:15:44 by manu              #+#    #+#             */
-/*   Updated: 2022/06/20 20:36:27 by manu             ###   ########.fr       */
+/*   Updated: 2022/06/27 20:42:57 by manu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdio.h>
 #include "push_swap.h"
 #include "ft_printf.h"
 
@@ -20,7 +21,7 @@ static void	print_stack_node_content(void *content)
 		ft_printf("No content\n");
 		return ;
 	}
-	ft_printf("Content = %d\n", ((t_number *)content)->n);
+	printf("Content = %ld\n", ((t_number *)content)->n);
 }
 
 static void	print_stack(t_list *stack)

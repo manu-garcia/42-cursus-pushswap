@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   moves_rotate.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: manugarc <manugarc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: manu <manu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/20 19:15:25 by manu              #+#    #+#             */
-/*   Updated: 2022/06/25 17:33:33 by manugarc         ###   ########.fr       */
+/*   Updated: 2022/06/27 20:42:46 by manu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static int	rotate_stack(t_list **stack)
 {
 	t_list	*first_node;
 
-	if (!stack || !(*stack) || ft_lstsize(*stack) <= 2)
+	if (!stack || !(*stack) || ft_lstsize(*stack) < 2)
 		return (0);
 	first_node = *stack;
 	ft_lstadd_back(stack, first_node);

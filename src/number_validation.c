@@ -6,10 +6,11 @@
 /*   By: manu <manu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/20 20:03:07 by manu              #+#    #+#             */
-/*   Updated: 2022/06/20 20:09:03 by manu             ###   ########.fr       */
+/*   Updated: 2022/06/27 20:48:44 by manu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <limits.h>
 #include "libft.h"
 
 int	is_valid_number(char *number)
@@ -37,4 +38,11 @@ int	is_valid_number(char *number)
 		number += 1;
 	}
 	return (is_valid);
+}
+
+int	is_valid_int(long n)
+{
+	if (n > INT_MAX || n < INT_MIN)
+		return (0);
+	return (1);
 }

@@ -6,12 +6,13 @@
 /*   By: manu <manu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/20 19:14:56 by manu              #+#    #+#             */
-/*   Updated: 2022/06/25 20:41:38 by manu             ###   ########.fr       */
+/*   Updated: 2022/06/27 20:59:51 by manu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h> //exit
 #include <stdio.h>
+#include <limits.h>
 
 #include "push_swap.h"
 #include "ft_printf.h"
@@ -59,6 +60,8 @@ t_number	*str_to_number(char *str)
 	if (!number)
 		exit_with_memory_error();
 	number->n = ft_atoi(str);
+	if (!is_valid_int(number->n))
+		exit_with_error();
 	return (number);
 }
 
@@ -96,83 +99,43 @@ int	get_numbers_from_input(int argc, char *argv[], t_state *state)
 	return (1);
 }
 
-// int	get_distance_to_sorted_position(long int n, t_list *stack)
-// {
-// 	int distance_to_sorted_position;
-
-// 	distance_to_sorted_position = 0;
-// 	while (stack && n < get_node_number(stack))
-// 	{
-// 		distance_to_sorted_position++;
-// 		stack = stack->next;
-// 	}
-// 	return (distance_to_sorted_position);
-// }
-
-// int	get_distance_to_sorted_position(long int n, t_list *stack, int size)
-// {
-// 	int distance_to_sorted_position;
-// 	int index;
-
-// 	index = 0;
-// 	distance_to_sorted_position = 0;
-// 	if (!size)
-// 		return 0;
-// 	if (size == 1)
-// 	{
-// 		if (n > get_node_number(stack))
-// 			return (0);
-// 		else
-// 			return (1);
-// 	}
-// 	while (stack)
-// 	{
-// 		if (index == 0)
-// 		{
-// 			if (n > get_node_number(ft_lstlast(stack)) && n > get_node_number(stack))
-// 				break;
-// 		}
-// 		else if (index == size - 1)
-// 		{
-// 			if (get_node_number(stack) > n && n > get_node_number(stack))
-// 				break;
-// 		}
-// 		else
-// 		{
-// 			if (get_node_number(stack) > n && n > get_node_number(stack->next))
-// 				break;
-// 		}
-// 		distance_to_sorted_position++;
-// 		stack = stack->next;
-// 		index++;
-// 	}
-// 	return (distance_to_sorted_position);
-// }
-
-int	get_distance_to_sorted_position(long int n, t_list *stack, int size)
+int	get_distance_to_sorted_position(long n, t_list *stack, int stack_size)
 {
-	int distance_to_sorted_position;
-	int index;
+	int		distance_to_sorted_position;
+	int		distance_to_max_number;
+	long	max;
+	long	stack_node_number;
 
-	index = 0;
-	distance_to_sorted_position = 0;
-	if (!size)
-		return 0;
-	if (size == 1)
+	if (!stack_size)
+		return (0);
+	if (stack_size == 1)
 	{
 		if (n > get_node_number(stack))
 			return (0);
 		else
 			return (1);
 	}
-	while (stack && n > get_node_number(stack))
+	max = INT_MIN;
+	distance_to_max_number = 0;
+	distance_to_sorted_position = 0;
+	while (stack)
 	{
+		stack_node_number = get_node_number(stack);
+		if (n > stack_node_number && stack_node_number > max)
+		{
+			distance_to_max_number = distance_to_sorted_position;
+			max = stack_node_number;
+		} else if (n < stack_node_number)
+			break;
 		distance_to_sorted_position++;
 		stack = stack->next;
 	}
-	if (distance_to_sorted_position == size)
+	if (distance_to_sorted_position == stack_size)
+	{
+		if (distance_to_max_number)
+			return (distance_to_max_number);
 		return (0);
-	index = distance_to_sorted_position;
+	}
 	while (stack && n < get_node_number(stack))
 	{
 		distance_to_sorted_position++;
@@ -180,8 +143,8 @@ int	get_distance_to_sorted_position(long int n, t_list *stack, int size)
 			return(distance_to_sorted_position);
 		stack = stack->next;
 	}
-	if (distance_to_sorted_position == size)
-		return (size);
+	if (distance_to_sorted_position == stack_size)
+		return (stack_size);
 	return (distance_to_sorted_position);
 }
 
@@ -203,25 +166,21 @@ int	main(int argc, char *argv[])
 	int size = ft_lstsize(state.stack_a);
 	int i = 0;
 	int	number_rotates = 0;
-	int max = 0;
-	int stop = 0;
-
 	while (i < size)
 	{
-		if (get_node_number(state.stack_a) == 1)
-		{
-			stop = 1;
-		}
-		if (max < get_node_number(state.stack_a))
-			max = get_node_number(state.stack_a);
 		if(i == 0)
 			push_top_a_to_top_b(&state);
 		else
 		{
 			number_rotates = get_distance_to_sorted_position(get_node_number(state.stack_a), state.stack_b, ft_lstsize(state.stack_b));
-			printf("get_distance_to_sorted_position of number %ld is %d\n", get_node_number(state.stack_a), number_rotates);
+			// printf("get_distance_to_sorted_position of number %ld is %d\n", get_node_number(state.stack_a), number_rotates);
 			if (!number_rotates)
 				push_top_a_to_top_b(&state);
+			else if (number_rotates == 1)
+			{
+				push_top_a_to_top_b(&state);
+				swap_stack_b_top_nodes(&state);
+			}
 			else if (number_rotates < (ft_lstsize(state.stack_b)/2))
 			{
 				rotate_stack_b_n_times(&state, number_rotates);
@@ -235,7 +194,7 @@ int	main(int argc, char *argv[])
 		}
 		// print_stack_a(&state);
 		// print_stack_b(&state);
-
+		// if (i == 1) exit(0);
 		i++;
 	}
 
@@ -246,13 +205,13 @@ int	main(int argc, char *argv[])
 		// print_stack_a(&state);
 		// print_stack_b(&state);
 	}
-
+	
 	int n = ft_lstsize(state.stack_b);
 	while(n--)
 		push_top_b_to_top_a(&state);
 
-	print_stack_a(&state);
-	print_stack_b(&state);
+	// print_stack_a(&state);
+	// print_stack_b(&state);
 	state.stack_a = NULL;
 	state.stack_b = NULL;
 	return (0);

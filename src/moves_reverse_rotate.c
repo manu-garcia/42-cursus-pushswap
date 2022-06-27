@@ -6,7 +6,7 @@
 /*   By: manu <manu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/20 19:15:16 by manu              #+#    #+#             */
-/*   Updated: 2022/06/25 20:20:48 by manu             ###   ########.fr       */
+/*   Updated: 2022/06/27 20:42:36 by manu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static int	reverse_rotate_stack(t_list **stack)
 	t_list	*current_node;
 	t_list	*last_node;
 
-	if (!stack || !(*stack) || ft_lstsize(*stack) <= 2)
+	if (!stack || !(*stack) || ft_lstsize(*stack) < 2)
 		return (0);
 	last_node = ft_lstlast(*stack);
 	current_node = *stack;
@@ -39,7 +39,7 @@ int	reverse_rotate_stack_a(t_state *state)
 {
 	if (!state || !reverse_rotate_stack(&state->stack_a))
 		return (0);
-	ft_printf("ra\n");
+	ft_printf("rra\n");
 	return (1);
 }
 
@@ -47,7 +47,7 @@ int	reverse_rotate_stack_b(t_state *state)
 {
 	if (!state || !reverse_rotate_stack(&state->stack_b))
 		return (0);
-	ft_printf("rb\n");
+	ft_printf("rrb\n");
 	return (1);
 }
 
