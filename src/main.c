@@ -6,7 +6,7 @@
 /*   By: manu <manu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/20 19:14:56 by manu              #+#    #+#             */
-/*   Updated: 2022/06/27 20:59:51 by manu             ###   ########.fr       */
+/*   Updated: 2022/06/27 21:22:33 by manu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,20 +26,7 @@
 #include "stack_sorting.h"
 #include "stack_node.h"
 #include "libft.h"
-
-// push_top_a_to_top_b(&state);
-// push_top_a_to_top_b(&state);
-// push_top_a_to_top_b(&state);
-// push_top_a_to_top_b(&state);
-// push_top_a_to_top_b(&state);
-// rotate_stack_a(&state);
-// rotate_stack_b(&state);
-// rotate_stack_a_and_b(&state);
-// reverse_rotate_stack_a(&state);
-// reverse_rotate_stack_b(&state);
-// reverse_rotate_stack_a_and_b(&state);
-// print_stack_a(&state);
-// print_stack_b(&state);
+#include "get_number_moves.h"
 
 int	validate_input_parameters(int argc, char *argv[])
 {
@@ -97,56 +84,7 @@ int	get_numbers_from_input(int argc, char *argv[], t_state *state)
 		index++;
 	}
 	return (1);
-}
-
-int	get_distance_to_sorted_position(long n, t_list *stack, int stack_size)
-{
-	int		distance_to_sorted_position;
-	int		distance_to_max_number;
-	long	max;
-	long	stack_node_number;
-
-	if (!stack_size)
-		return (0);
-	if (stack_size == 1)
-	{
-		if (n > get_node_number(stack))
-			return (0);
-		else
-			return (1);
-	}
-	max = INT_MIN;
-	distance_to_max_number = 0;
-	distance_to_sorted_position = 0;
-	while (stack)
-	{
-		stack_node_number = get_node_number(stack);
-		if (n > stack_node_number && stack_node_number > max)
-		{
-			distance_to_max_number = distance_to_sorted_position;
-			max = stack_node_number;
-		} else if (n < stack_node_number)
-			break;
-		distance_to_sorted_position++;
-		stack = stack->next;
-	}
-	if (distance_to_sorted_position == stack_size)
-	{
-		if (distance_to_max_number)
-			return (distance_to_max_number);
-		return (0);
-	}
-	while (stack && n < get_node_number(stack))
-	{
-		distance_to_sorted_position++;
-		if(stack->next && (get_node_number(stack) < get_node_number(stack->next)))
-			return(distance_to_sorted_position);
-		stack = stack->next;
-	}
-	if (distance_to_sorted_position == stack_size)
-		return (stack_size);
-	return (distance_to_sorted_position);
-}
+}	
 
 int	main(int argc, char *argv[])
 {
@@ -166,8 +104,11 @@ int	main(int argc, char *argv[])
 	int size = ft_lstsize(state.stack_a);
 	int i = 0;
 	int	number_rotates = 0;
+	int max = INT_MIN;
 	while (i < size)
 	{
+		if (get_node_number(state.stack_a) > max)
+			max = get_node_number(state.stack_a);
 		if(i == 0)
 			push_top_a_to_top_b(&state);
 		else
@@ -198,13 +139,11 @@ int	main(int argc, char *argv[])
 		i++;
 	}
 
-	// This is to be optmized. Decide whether we rotate normally or in reverse order. The one with less moves.
-	while(!is_stack_reversed_sorted(state.stack_b))
-	{
-		rotate_stack_b(&state);
-		// print_stack_a(&state);
-		// print_stack_b(&state);
-	}
+	number_rotates = get_distance_to_sorted_position(max + 1, state.stack_b, ft_lstsize(state.stack_b));
+	if (number_rotates < (ft_lstsize(state.stack_b)/2))
+		rotate_stack_b_n_times(&state, number_rotates);
+	else
+		reverse_rotate_stack_b_n_times(&state, ft_lstsize(state.stack_b) - number_rotates);
 	
 	int n = ft_lstsize(state.stack_b);
 	while(n--)

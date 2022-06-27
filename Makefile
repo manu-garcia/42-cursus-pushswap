@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: manugarc <manugarc@student.42.fr>          +#+  +:+       +#+         #
+#    By: manu <manu@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/23 20:21:02 by manu              #+#    #+#              #
-#    Updated: 2022/06/25 19:14:17 by manugarc         ###   ########.fr        #
+#    Updated: 2022/06/27 21:22:40 by manu             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,7 @@ NAME				=	push_swap
 SRC_DIR				=	src
 INCLUDES_DIR		= 	includes
 
-SOURCES				= 	$(SRC_DIR)/main.c $(SRC_DIR)/error.c $(SRC_DIR)/moves_push.c $(SRC_DIR)/stack_printing.c $(SRC_DIR)/moves_swap.c $(SRC_DIR)/moves_rotate.c $(SRC_DIR)/moves_reverse_rotate.c $(SRC_DIR)/number_validation.c $(SRC_DIR)/stack_node.c $(SRC_DIR)/stack_sorting.c
+SOURCES				= 	$(SRC_DIR)/main.c $(SRC_DIR)/error.c $(SRC_DIR)/moves_push.c $(SRC_DIR)/stack_printing.c $(SRC_DIR)/moves_swap.c $(SRC_DIR)/moves_rotate.c $(SRC_DIR)/moves_reverse_rotate.c $(SRC_DIR)/number_validation.c $(SRC_DIR)/stack_node.c $(SRC_DIR)/stack_sorting.c $(SRC_DIR)/get_number_moves.c
 OBJS				= 	$(SOURCES:.c=.o)
 
 LIB_FT_PRINTF		=	ft_printf
@@ -52,6 +52,8 @@ norminette:
 	norminette -R CheckForbiddenSourceHeader | grep Error
 
 test: all
-	./push_swap "37 60 64 100 3 98 39 93 1 94"
+	# ./push_swap "37 60 64 100 3 98 39 93 1 94"
+	# ./push_swap "1105339934 -732309121 452138020 -2093977165 -1989575772 1910122299 2105917496 1098840654 568186522 1174680545"
+	./push_swap "1105339934 -732309121 452138020 -2093977165 -1989575772 1910122299"
 
 .PHONY: all clean fclean re
