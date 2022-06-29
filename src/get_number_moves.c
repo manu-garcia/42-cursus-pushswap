@@ -6,7 +6,7 @@
 /*   By: manu <manu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 21:18:20 by manu              #+#    #+#             */
-/*   Updated: 2022/06/27 21:19:09 by manu             ###   ########.fr       */
+/*   Updated: 2022/06/28 18:33:36 by manu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,11 @@ int	get_distance_to_sorted_position(long n, t_list *stack, int stack_size)
 	int		distance_to_max_number;
 	long	max;
 	long	stack_node_number;
+	long	previous_stack_node_number;
+	int		trend_changed;
+	int		trend_direction;
+	int		numbers_processed;
+	
 
 	if (!stack_size)
 		return (0);
@@ -46,9 +51,37 @@ int	get_distance_to_sorted_position(long n, t_list *stack, int stack_size)
 	max = INT_MIN;
 	distance_to_max_number = 0;
 	distance_to_sorted_position = 0;
+	stack_node_number = INT_MIN;
+	trend_changed = 0;
+	trend_direction = 0;
+	numbers_processed = 0;
 	while (stack)
 	{
+		previous_stack_node_number = stack_node_number;
 		stack_node_number = get_node_number(stack);
+		numbers_processed++;
+		if (numbers_processed > 1)
+		{
+			if (previous_stack_node_number > stack_node_number)
+				trend_direction = 1;
+			else
+				trend_direction = -1;
+		}
+		if (trend_direction == -1)
+		{
+			if (previous_stack_node_number < stack_node_number && n > stack_node_number)
+				return (distance_to_sorted_position);			
+		} else if (trend_direction == 1)
+		{
+			if (previous_stack_node_number < n && n < stack_node_number)
+				return (distance_to_sorted_position);
+		}
+
+		// if (previous_stack_node_number > stack_node_number)
+			// return (distance_to_sorted_position);
+		// We found the change of the trend
+		// if (previous_stack_node_number < stack_node_number && n > stack_node_number)
+		// 	return (distance_to_sorted_position);
 		if (n > stack_node_number && stack_node_number > max)
 		{
 			distance_to_max_number = distance_to_sorted_position;
@@ -72,6 +105,6 @@ int	get_distance_to_sorted_position(long n, t_list *stack, int stack_size)
 		stack = stack->next;
 	}
 	if (distance_to_sorted_position == stack_size)
-		return (stack_size);
+		return (0);
 	return (distance_to_sorted_position);
 }

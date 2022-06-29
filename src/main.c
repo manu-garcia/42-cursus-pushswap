@@ -6,7 +6,7 @@
 /*   By: manu <manu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/20 19:14:56 by manu              #+#    #+#             */
-/*   Updated: 2022/06/27 21:22:33 by manu             ###   ########.fr       */
+/*   Updated: 2022/06/29 19:12:43 by manu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@
 #include "stack_node.h"
 #include "libft.h"
 #include "get_number_moves.h"
+#include "stack_init.h"
 
 int	validate_input_parameters(int argc, char *argv[])
 {
@@ -36,55 +37,6 @@ int	validate_input_parameters(int argc, char *argv[])
 		return (0);
 	return (1);
 }
-
-t_number	*str_to_number(char *str)
-{
-	t_number	*number;
-
-	if (!is_valid_number(str))
-		exit_with_error();
-	number = (t_number *)malloc(sizeof(t_number));
-	if (!number)
-		exit_with_memory_error();
-	number->n = ft_atoi(str);
-	if (!is_valid_int(number->n))
-		exit_with_error();
-	return (number);
-}
-
-int	space_separated_numbers_to_stack(char *numbers, t_list **stack)
-{
-	int		index;
-	char	**split;
-
-	if (!stack || !numbers)
-		exit_with_error();
-	split = ft_split(numbers, ' ');
-	if (!split)
-		return (0);
-	index = 0;
-	while (split[index])
-	{
-		ft_lstadd_back(stack, ft_lstnew(str_to_number(split[index])));
-		index++;
-	}
-	return (1);
-}
-
-int	get_numbers_from_input(int argc, char *argv[], t_state *state)
-{
-	int	index;
-
-	if (!state)
-		return (0);
-	index = 1;
-	while (index < argc)
-	{
-		space_separated_numbers_to_stack(argv[index], &state->stack_a);
-		index++;
-	}
-	return (1);
-}	
 
 int	main(int argc, char *argv[])
 {
@@ -105,6 +57,7 @@ int	main(int argc, char *argv[])
 	int i = 0;
 	int	number_rotates = 0;
 	int max = INT_MIN;
+	int total_moves = 0;
 	while (i < size)
 	{
 		if (get_node_number(state.stack_a) > max)
@@ -114,40 +67,58 @@ int	main(int argc, char *argv[])
 		else
 		{
 			number_rotates = get_distance_to_sorted_position(get_node_number(state.stack_a), state.stack_b, ft_lstsize(state.stack_b));
-			// printf("get_distance_to_sorted_position of number %ld is %d\n", get_node_number(state.stack_a), number_rotates);
-			if (!number_rotates)
+			// printf("\nSorting number. get_distance_to_sorted_position of number %ld is %d\n", get_node_number(state.stack_a), number_rotates);
+			if (!number_rotates) {
 				push_top_a_to_top_b(&state);
+				total_moves++;
+			}
 			else if (number_rotates == 1)
 			{
 				push_top_a_to_top_b(&state);
 				swap_stack_b_top_nodes(&state);
+				total_moves+=2;
 			}
 			else if (number_rotates < (ft_lstsize(state.stack_b)/2))
 			{
 				rotate_stack_b_n_times(&state, number_rotates);
 				push_top_a_to_top_b(&state);
+				total_moves+=number_rotates + 1;
 			}
 			else
 			{
 				reverse_rotate_stack_b_n_times(&state, ft_lstsize(state.stack_b) - number_rotates);
 				push_top_a_to_top_b(&state);
+				total_moves+=ft_lstsize(state.stack_b) - number_rotates + 1;
 			}
 		}
 		// print_stack_a(&state);
 		// print_stack_b(&state);
-		// if (i == 1) exit(0);
+		// if (i == 2) exit(0);
 		i++;
 	}
 
 	number_rotates = get_distance_to_sorted_position(max + 1, state.stack_b, ft_lstsize(state.stack_b));
-	if (number_rotates < (ft_lstsize(state.stack_b)/2))
+	// printf("\n\n\nSorting all B. get_distance_to_sorted_position to sort b %d is %d\n", max + 1, number_rotates);
+
+	if (number_rotates < (ft_lstsize(state.stack_b)/2)) {
 		rotate_stack_b_n_times(&state, number_rotates);
+		total_moves+=number_rotates;
+	}
 	else
+	{
 		reverse_rotate_stack_b_n_times(&state, ft_lstsize(state.stack_b) - number_rotates);
+		total_moves+=ft_lstsize(state.stack_b) - number_rotates;
+	}
 	
+	// printf("\n\n\nMoving all numbers to A (%d moves)\n", ft_lstsize(state.stack_b));
+
 	int n = ft_lstsize(state.stack_b);
 	while(n--)
 		push_top_b_to_top_a(&state);
+
+	total_moves+=ft_lstsize(state.stack_a);
+
+	// printf("TOTAL MOVES (%d moves)\n", total_moves);
 
 	// print_stack_a(&state);
 	// print_stack_b(&state);
