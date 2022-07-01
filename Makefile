@@ -6,7 +6,7 @@
 #    By: manu <manu@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/23 20:21:02 by manu              #+#    #+#              #
-#    Updated: 2022/06/30 21:23:16 by manu             ###   ########.fr        #
+#    Updated: 2022/07/01 21:40:11 by manu             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,7 +22,7 @@ TESTS_OBJS			= 	$(TEST_SOURCES:.c=.o)
 
 LIB_FT_PRINTF		=	ft_printf
 LIB_FT				=	libft
-CFLAGS 				= 	-Wall -Wextra -Werror -g
+CFLAGS 				= 	-Wall -Wextra -Werror
 CC 					= 	gcc
 
 all: $(NAME)

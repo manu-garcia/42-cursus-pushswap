@@ -6,7 +6,7 @@
 /*   By: manu <manu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/20 19:12:44 by manu              #+#    #+#             */
-/*   Updated: 2022/06/25 20:21:09 by manu             ###   ########.fr       */
+/*   Updated: 2022/07/01 21:40:24 by manu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,5 +20,6 @@ int     reverse_rotate_stack_b(t_state *state);
 void	reverse_rotate_stack_a_n_times(t_state *state, int n_times);
 void	reverse_rotate_stack_b_n_times(t_state *state, int n_times);
 int     reverse_rotate_stack_a_and_b(t_state *state);
+void	reverse_rotate_stack_a_and_b_n_times(t_state *state, int n_times);
 
 #endif

@@ -6,13 +6,14 @@
 /*   By: manu <manu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/20 19:14:56 by manu              #+#    #+#             */
-/*   Updated: 2022/06/30 21:28:00 by manu             ###   ########.fr       */
+/*   Updated: 2022/07/01 21:40:54 by manu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <limits.h>
 #include <stdlib.h>
 #include <stdio.h>
+#include <unistd.h> // write
 
 #include "push_swap.h"
 #include "moves_push.h"
@@ -24,8 +25,8 @@
 #include "get_number_moves.h"
 
 typedef enum e_move_type {
-    // Add no MOVE as 0
-    MOVE_SA = 0,
+    MOVE_NOTHING = 0,
+    MOVE_SA,
     MOVE_SB,
     MOVE_SS,
     MOVE_PA,
@@ -46,9 +47,11 @@ typedef struct s_move
     int         index_in_a;
     int         number_moves_a;
     int         number_moves_b;
+    int         number_moves_both;
     int         number_moves_total;
     t_move_type move_type_a;
     t_move_type move_type_b;
+    t_move_type move_type_both;
 }   t_move;
 
 static void get_number_moves_to_top_a(int actual_index, t_move *move)
@@ -70,7 +73,10 @@ static void get_number_moves_to_top_a(int actual_index, t_move *move)
         move->move_type_a = MOVE_RRA;
     }
 
-    move->number_moves_total += move->number_moves_a;
+    if (!move->number_moves_a)
+        move->move_type_a = MOVE_NOTHING;
+    else
+        move->number_moves_total += move->number_moves_a;
 }
 
 static void get_number_moves_to_sort_in_b(t_state *state, t_move *move)
@@ -88,7 +94,50 @@ static void get_number_moves_to_sort_in_b(t_state *state, t_move *move)
         move->number_moves_b = move->size_b - move->number_moves_b;
         move->move_type_b = MOVE_RRB;
     }
-    move->number_moves_total += move->number_moves_b;
+
+    if (!move->number_moves_b)
+        move->move_type_b = MOVE_NOTHING;
+    else
+        move->number_moves_total += move->number_moves_b;
+}
+
+static long ft_min(long a, long b)
+{
+    if (a < b)
+        return (a);
+    return (b);
+}
+
+static void optimize_move(t_move *move)
+{
+    int min;
+
+    if (move->move_type_a == MOVE_RA && move->move_type_b == MOVE_RB)
+    {
+        // printf("Same movement on both. Type (RR). N moves in A (%d). N moves in B (%d)\n", move->number_moves_a, move->number_moves_b);
+        move->move_type_both = MOVE_RR;
+    }
+    else if (move->move_type_a == MOVE_RRA && move->move_type_b == MOVE_RRB) // MOVE_RRR
+    {
+        // printf("Same movement on both. Type (RRR). N moves in A (%d). N moves in B (%d)\n", move->number_moves_a, move->number_moves_b);
+        move->move_type_both = MOVE_RRR;
+    }
+
+    if (move->move_type_both != MOVE_NOTHING)
+    {
+        min = ft_min(move->number_moves_a, move->number_moves_b);
+        move->number_moves_both = min;
+        move->number_moves_a -= min;
+        move->number_moves_b -= min;
+
+        if (!move->number_moves_a)
+            move->move_type_a = MOVE_NOTHING;
+
+        if (!move->number_moves_b)
+            move->move_type_b = MOVE_NOTHING;
+    }
+
+    move->number_moves_total = move->number_moves_a + move->number_moves_b + move->number_moves_both;
 }
 
 static t_move  *get_best_move(t_state *state)
@@ -118,6 +167,7 @@ static t_move  *get_best_move(t_state *state)
         (moves[i])->size_b = size_b;
         get_number_moves_to_top_a(i, moves[i]);
         get_number_moves_to_sort_in_b(state, moves[i]);
+        optimize_move(moves[i]);
         i++;
     }
 
@@ -158,7 +208,7 @@ void    apply_move(t_state *state, t_move_type move_type, int number_moves)
     }
     else if (move_type == MOVE_RR)
     {
-        // Missing rotate both n times fn
+        rotate_stack_a_and_b_n_times(state, number_moves);
     }
     else if (move_type == MOVE_RRA)
     {
@@ -170,7 +220,7 @@ void    apply_move(t_state *state, t_move_type move_type, int number_moves)
     }
     else if (move_type == MOVE_RRR)
     {
-        // Missing rotate both n times fn
+        reverse_rotate_stack_a_and_b_n_times(state, number_moves);
     }
     else if (move_type == MOVE_SA)
     {
@@ -183,7 +233,11 @@ void    apply_move(t_state *state, t_move_type move_type, int number_moves)
     else if (move_type == MOVE_SS)
     {
         // Missing move fn
-    } else {
+    	printf("\n\n\nInternal Error missing MOVE_SS implementation.\n");
+        exit(0);
+    }
+    else if (move_type != MOVE_NOTHING)
+    {
     	printf("\n\n\nInternal Error applying move type (%d)\n", move_type);
         exit(0);
     }
@@ -199,16 +253,27 @@ int	algorithm_2_best_a_and_b_move(t_state *state)
     while(i<size_a)
     {
         best_move = get_best_move(state);
-        // Implement optimize best move fn, for instance, if A and B have to rotate
-        // and can be done at the same time
+
+        apply_move(state, best_move->move_type_both, best_move->number_moves_both);
+        // if (best_move->number_moves_both)
+        // {
+        //     print_stack_a(state);
+        //     print_stack_b(state);
+        //     exit(0);
+        // }
         apply_move(state, best_move->move_type_a, best_move->number_moves_a);
         apply_move(state, best_move->move_type_b, best_move->number_moves_b);
         apply_move(state, MOVE_PB, 1);
+        // write(1, "----------\n", 11);
         i++;
     }
 
+	// print_stack_a(state);
+	// print_stack_b(state);
+    // exit(0);
+    
 	int number_rotates = get_distance_to_sorted_position(INT_MAX, state->stack_b, ft_lstsize(state->stack_b));
-	// printf("\n\n\nSorting all B. get_distance_to_sorted_position to sort b %d is %d\n", max + 1, number_rotates);
+	// printf("\n\n\nSorting all B. get_distance_to_sorted_position to sort b %d is %d\n", INT_MAX, number_rotates);
 
 	if (number_rotates < (ft_lstsize(state->stack_b)/2)) {
 		rotate_stack_b_n_times(state, number_rotates);
@@ -223,16 +288,27 @@ int	algorithm_2_best_a_and_b_move(t_state *state)
 		// total_moves+=ft_lstsize(state->stack_b) - number_rotates;
 	}
 
+	// print_stack_a(state);
+	// print_stack_b(state);
+    // exit(0);
+
+	// printf("Move to A\n");
+
 	int n = ft_lstsize(state->stack_b);
 	while(n--)
 		push_top_b_to_top_a(state);
 
 
 	// total_moves+=ft_lstsize(state->stack_a);
+	// total_moves+=ft_lstsize(state->stack_a);
 
 	// printf("TOTAL MOVES (%d moves)\n", total_moves);
+	// printf("\n\n\nSorting all B. get_distance_to_sorted_position to sort b %d is %d\n", max + 1, number_rotates);
 
 	// print_stack_a(state);
 	// print_stack_b(state);
+
+	// printf("Total number of nodes (%d)\n", ft_lstsize(state->stack_a));
+
 	return (0);
 }

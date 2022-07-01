@@ -6,7 +6,7 @@
 /*   By: manu <manu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/20 19:15:25 by manu              #+#    #+#             */
-/*   Updated: 2022/06/27 20:42:46 by manu             ###   ########.fr       */
+/*   Updated: 2022/07/01 21:41:13 by manu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,4 +64,10 @@ int	rotate_stack_a_and_b(t_state *state)
 	}
 	ft_printf("rr\n");
 	return (1);
+}
+
+void	rotate_stack_a_and_b_n_times(t_state *state, int n_times)
+{
+	while (n_times--)
+		rotate_stack_a_and_b(state);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   moves_rotate.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: manugarc <manugarc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: manu <manu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/20 19:12:58 by manu              #+#    #+#             */
-/*   Updated: 2022/06/25 17:34:09 by manugarc         ###   ########.fr       */
+/*   Updated: 2022/07/01 21:40:39 by manu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,5 +20,6 @@ int		rotate_stack_b(t_state *state);
 void	rotate_stack_a_n_times(t_state *state, int n_times);
 void	rotate_stack_b_n_times(t_state *state, int n_times);
 int		rotate_stack_a_and_b(t_state *state);
+void	rotate_stack_a_and_b_n_times(t_state *state, int n_times);
 
 #endif
