@@ -6,7 +6,7 @@
 /*   By: manu <manu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/20 20:27:55 by manu              #+#    #+#             */
-/*   Updated: 2022/06/20 20:28:04 by manu             ###   ########.fr       */
+/*   Updated: 2022/07/04 21:10:44 by manu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,4 +33,23 @@ int	is_valid_node(t_list *node)
 		return (0);
 	}
 	return (1);
+}
+
+t_list  *get_node_by_index(t_list *stack, int index)
+{
+    int i;
+    int size;
+
+    size = ft_lstsize(stack);
+    if (index >= size)
+        return NULL;
+    i = 0;
+    while(stack)
+    {
+        if (i == index)
+            return stack;
+        stack = stack->next;
+		i++;
+    }
+    return NULL;
 }

@@ -1,0 +1,51 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   move.h                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: manu <manu@student.42.fr>                  +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/07/04 16:50:42 by manu              #+#    #+#             */
+/*   Updated: 2022/07/04 20:51:49 by manu             ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#ifndef MOVE_H
+#define MOVE_H
+
+#include "push_swap.h"
+
+typedef enum e_move_type {
+    MOVE_NOTHING = 0,
+    MOVE_SA,
+    MOVE_SB,
+    MOVE_SS,
+    MOVE_PA,
+    MOVE_PB,
+    MOVE_RA,
+    MOVE_RB,
+    MOVE_RR,
+    MOVE_RRA,
+    MOVE_RRB,
+    MOVE_RRR,
+}	t_move_type;
+
+typedef struct s_move
+{
+    long        n;
+    int         size_a;
+    int         size_b;
+    int         index_in_a;
+    int         number_moves_a;
+    int         number_moves_b;
+    int         number_moves_both;
+    int         number_moves_total;
+    t_move_type move_type_a;
+    t_move_type move_type_b;
+    t_move_type move_type_both;
+}   t_move;
+
+t_move  *get_best_move(t_state *state);
+void    apply_move(t_state *state, t_move_type move_type, int number_moves);
+
+#endif

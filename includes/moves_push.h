@@ -6,7 +6,7 @@
 /*   By: manu <manu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/20 19:11:55 by manu              #+#    #+#             */
-/*   Updated: 2022/06/20 19:11:56 by manu             ###   ########.fr       */
+/*   Updated: 2022/07/04 21:03:32 by manu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,5 +17,7 @@
 
 void	push_top_a_to_top_b(t_state *state);
 void	push_top_b_to_top_a(t_state *state);
+void	push_top_a_to_top_b_n_times(t_state *state, int n_times);
+void	push_top_b_to_top_a_n_times(t_state *state, int n_times);
 
 #endif

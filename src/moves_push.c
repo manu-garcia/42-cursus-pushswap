@@ -6,7 +6,7 @@
 /*   By: manu <manu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/20 19:12:21 by manu              #+#    #+#             */
-/*   Updated: 2022/06/20 19:57:14 by manu             ###   ########.fr       */
+/*   Updated: 2022/07/04 21:10:33 by manu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,4 +39,16 @@ void	push_top_b_to_top_a(t_state *state)
 		return ;
 	if (push_top(&state->stack_b, &state->stack_a))
 		ft_printf("pa\n");
+}
+
+void	push_top_a_to_top_b_n_times(t_state *state, int n_times)
+{
+	while (n_times--)
+		push_top_a_to_top_b(state);
+}
+
+void	push_top_b_to_top_a_n_times(t_state *state, int n_times)
+{
+	while (n_times--)
+		push_top_b_to_top_a(state);
 }
