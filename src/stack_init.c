@@ -6,7 +6,7 @@
 /*   By: manu <manu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/20 19:14:56 by manu              #+#    #+#             */
-/*   Updated: 2022/06/27 21:54:15 by manu             ###   ########.fr       */
+/*   Updated: 2022/07/05 20:50:18 by manu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,10 +43,22 @@ static t_number	*str_to_number(char *str)
 	return (number);
 }
 
+static int	is_duplicated_number(t_list *stack, t_number *number)
+{
+	while (stack)
+	{
+		if (get_node_number(stack) == number->n)
+			return (1);
+		stack = stack->next;
+	}
+	return (0);
+}
+
 int	space_separated_numbers_to_stack(char *numbers, t_list **stack)
 {
 	int		index;
 	char	**split;
+	t_number	*number;
 
 	if (!stack || !numbers)
 		exit_with_error();
@@ -56,7 +68,10 @@ int	space_separated_numbers_to_stack(char *numbers, t_list **stack)
 	index = 0;
 	while (split[index])
 	{
-		ft_lstadd_back(stack, ft_lstnew(str_to_number(split[index])));
+		number = str_to_number(split[index]);
+		if (is_duplicated_number(*stack, number))
+			exit_with_error();
+		ft_lstadd_back(stack, ft_lstnew(number));
 		index++;
 	}
 	return (1);

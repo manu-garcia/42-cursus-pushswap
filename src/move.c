@@ -6,7 +6,7 @@
 /*   By: manu <manu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/04 21:09:22 by manu              #+#    #+#             */
-/*   Updated: 2022/07/04 21:09:28 by manu             ###   ########.fr       */
+/*   Updated: 2022/07/05 20:50:09 by manu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -201,9 +201,7 @@ void    apply_move(t_state *state, t_move_type move_type, int number_moves)
     }
     else if (move_type == MOVE_SS)
     {
-        // Missing move fn
-    	printf("\n\n\nInternal Error missing MOVE_SS implementation.\n");
-        exit(0);
+        swap_stack_a_and_b_top_nodes(state);
     }
     else if (move_type != MOVE_NOTHING)
     {

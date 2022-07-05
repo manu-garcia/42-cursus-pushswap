@@ -6,7 +6,7 @@
 /*   By: manu <manu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/01 18:36:08 by manu              #+#    #+#             */
-/*   Updated: 2022/04/01 19:12:06 by manu             ###   ########.fr       */
+/*   Updated: 2022/07/05 20:47:55 by manu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,11 +54,11 @@ static int	ft_get_multiplier(int number_digits)
 	return (multiplier);
 }
 
-static int	ft_get_number(char *str)
+static long	ft_get_number(char *str)
 {
-	int	index;
-	int	len;
-	int	number;
+	int		index;
+	int		len;
+	long	number;
 
 	index = 0;
 	while (str[index] && str[index] >= '0' && str[index] <= '9')
@@ -76,7 +76,7 @@ static int	ft_get_number(char *str)
 	return (number);
 }
 
-int	ft_atoi(const char *str)
+long	ft_atoi(const char *str)
 {
 	char	*str_copy;
 	int		sign;

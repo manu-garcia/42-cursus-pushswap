@@ -14,7 +14,7 @@ CC = gcc
 all: $(NAME)
 
 %.o:	%.c
-		$(CC) -c $(FLAGS) $^
+		$(CC) -c $(CFLAGS) $^
 
 $(NAME): $(MANDATORY_OBJ)
 	ar rcs $(NAME) $(MANDATORY_OBJ)
