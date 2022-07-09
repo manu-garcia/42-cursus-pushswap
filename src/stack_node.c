@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   stack_node.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: manu <manu@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: manugarc <manugarc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/20 20:27:55 by manu              #+#    #+#             */
-/*   Updated: 2022/07/04 21:10:44 by manu             ###   ########.fr       */
+/*   Updated: 2022/07/09 18:56:27 by manugarc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,22 +16,13 @@
 
 long	get_node_number(t_list *node)
 {
-	if (!node || !node->content)
-	{
-		ft_printf("Error getting node number\n");
-		exit_with_internal_error();
-	}
 	return (((t_number *)node->content)->n);
 }
 
 int	is_valid_node(t_list *node)
 {
 	if (!node || !node->content)
-	{
-		ft_printf("Error invalid node\n");
-		exit_with_internal_error();
 		return (0);
-	}
 	return (1);
 }
 

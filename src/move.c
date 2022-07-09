@@ -6,7 +6,7 @@
 /*   By: manugarc <manugarc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/04 21:09:22 by manu              #+#    #+#             */
-/*   Updated: 2022/07/09 15:13:03 by manugarc         ###   ########.fr       */
+/*   Updated: 2022/07/09 18:56:07 by manugarc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@
 #include "stack_node.h"
 #include "get_number_moves.h"
 #include "move.h"
+#include "error.h"
 
 static void get_number_moves_to_top_a(int actual_index, t_move *move)
 {
@@ -119,13 +120,14 @@ t_move  *get_best_move(t_state *state)
 	int     size_b = ft_lstsize(state->stack_b);
     int     i;
 
-    moves = (t_move **)malloc(size_a * sizeof(t_move *));
+    moves = (t_move **)ft_calloc(1, size_a * sizeof(t_move *));
     stack_a = state->stack_a;
     i = 0;
     while(stack_a)
     {
-        moves[i] = (t_move *)calloc(1, sizeof(t_move));
-        // if (!ptr)
+        moves[i] = (t_move *)ft_calloc(1, sizeof(t_move));
+        if (!moves[i])
+			exit_with_error(&state);
         (moves[i])->n = get_node_number(stack_a);
         stack_a = stack_a->next;
         i++;
@@ -186,6 +188,6 @@ void    apply_move(t_state *state, t_move_type move_type, int number_moves, t_mo
     else if (move_type != MOVE_NOTHING)
     {
     	printf("\n\n\nInternal Error applying move type (%d)\n", move_type);
-        exit(0);
+        exit_with_error(state);
     }
 }

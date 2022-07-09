@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   tests.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: manu <manu@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: manugarc <manugarc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/20 19:14:56 by manu              #+#    #+#             */
-/*   Updated: 2022/06/29 19:13:18 by manu             ###   ########.fr       */
+/*   Updated: 2022/07/09 18:56:45 by manugarc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h> //exit
+#include <stdlib.h>
 #include <stdio.h>
 #include <limits.h>
 #include <assert.h>
@@ -34,7 +34,7 @@ void test_1 ()
 {
 	t_state	state;
 	if (!space_separated_numbers_to_stack("30 20 10", &state.stack_a))
-		exit_with_error();
+		exit_with_error(&state);
 	assert(ft_lstsize(state.stack_a) == 3);
 	assert(is_stack_reversed_sorted(state.stack_a));
 	assert(get_node_number(state.stack_a) == 30);

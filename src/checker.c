@@ -6,11 +6,11 @@
 /*   By: manugarc <manugarc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/20 19:14:56 by manu              #+#    #+#             */
-/*   Updated: 2022/07/09 15:16:36 by manugarc         ###   ########.fr       */
+/*   Updated: 2022/07/09 17:04:57 by manugarc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h> //exit
+#include <stdlib.h>
 #include <unistd.h>
 #include <stdio.h>
 
@@ -68,15 +68,15 @@ int	main(int argc, char *argv[])
 	char	user_input[MAX_USER_INPUT_LENGTH];
 
 	if (argc <= 1)
-		exit(0);
+		exit_without_error(&state);
 	if (!validate_input_parameters(argc, argv))
-		exit_with_error();
+		exit_with_error(&state);
 	if (!get_numbers_from_input(argc, argv, &state))
-		exit_with_error();
+		exit_with_error(&state);
 	if (ft_lstsize(state.stack_a) < 2)
-		exit(0); // free
+		exit_without_error(&state);
 	if (is_stack_sorted(state.stack_a))
-		exit(0);
+		exit_without_error(&state);
 
 	int user_input_length;
     while ((user_input_length = read(STDIN_FILENO, &user_input, MAX_USER_INPUT_LENGTH)) != -1)
@@ -88,10 +88,8 @@ int	main(int argc, char *argv[])
 			apply_move(&state, get_move_type(user_input), 1, MOVE_PRINT_NOTHING);
 	}
 
-	print_stack_a(&state);
-	print_stack_b(&state);
+	// print_stack_a(&state);
+	// print_stack_b(&state);
 
-	state.stack_a = NULL;
-	state.stack_b = NULL;
-	return (0);
+	exit_without_error(&state);
 }
