@@ -3,15 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   moves_swap.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: manu <manu@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: manugarc <manugarc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/20 19:15:35 by manu              #+#    #+#             */
-/*   Updated: 2022/06/20 19:15:36 by manu             ###   ########.fr       */
+/*   Updated: 2022/07/09 15:09:15 by manugarc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 #include "ft_printf.h"
+#include "move.h"
 
 static int	swap_stack_top_nodes(t_list **stack)
 {
@@ -26,29 +27,37 @@ static int	swap_stack_top_nodes(t_list **stack)
 	return (1);
 }
 
-void	swap_stack_a_top_nodes(t_state *state)
+int	swap_stack_a_top_nodes(t_state *state, t_move_print_option print_option)
 {
-	if (!state)
-		return ;
-	if (swap_stack_top_nodes(&state->stack_a))
-		ft_printf("sa\n");
+	if (state && swap_stack_top_nodes(&state->stack_a))
+	{
+		if (print_option == MOVE_PRINT_TO_SCREEN)
+			ft_printf("sa\n");
+		return (1);
+	}
+	return (0);
 }
 
-void	swap_stack_b_top_nodes(t_state *state)
+int	swap_stack_b_top_nodes(t_state *state, t_move_print_option print_option)
 {
-	if (!state)
-		return ;
-	if (swap_stack_top_nodes(&state->stack_b))
-		ft_printf("sb\n");
+	if (state && swap_stack_top_nodes(&state->stack_b))
+	{
+		if (print_option == MOVE_PRINT_TO_SCREEN)
+			ft_printf("sb\n");
+		return (1);
+	}
+	return (0);
 }
 
-void	swap_stack_a_and_b_top_nodes(t_state *state)
+int	swap_stack_a_and_b_top_nodes(t_state *state, t_move_print_option print_option)
 {
-	if (!state)
-		return ;
-	if (swap_stack_top_nodes(&state->stack_a)
+	if (state
+		&& swap_stack_top_nodes(&state->stack_a)
 		&& swap_stack_top_nodes(&state->stack_b))
 	{
-		ft_printf("ss\n");
+		if (print_option == MOVE_PRINT_TO_SCREEN)
+			ft_printf("ss\n");
+		return (1);
 	}
+	return (0);
 }

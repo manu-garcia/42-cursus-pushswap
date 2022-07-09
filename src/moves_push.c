@@ -3,15 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   moves_push.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: manu <manu@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: manugarc <manugarc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/20 19:12:21 by manu              #+#    #+#             */
-/*   Updated: 2022/07/04 21:10:33 by manu             ###   ########.fr       */
+/*   Updated: 2022/07/09 15:09:41 by manugarc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 #include "ft_printf.h"
+#include "move.h"
 
 static int	push_top(t_list **stack_from, t_list **stack_to)
 {
@@ -25,30 +26,40 @@ static int	push_top(t_list **stack_from, t_list **stack_to)
 	return (1);
 }
 
-void	push_top_a_to_top_b(t_state *state)
+int	push_top_a_to_top_b(t_state *state, t_move_print_option print_option)
 {
-	if (!state)
-		return ;
-	if (push_top(&state->stack_a, &state->stack_b))
-		ft_printf("pb\n");
+	if (state && push_top(&state->stack_a, &state->stack_b))
+	{
+		if (print_option == MOVE_PRINT_TO_SCREEN)
+			ft_printf("pb\n");
+		return (1);
+	}
+	return (0);
 }
 
-void	push_top_b_to_top_a(t_state *state)
+int	push_top_b_to_top_a(t_state *state, t_move_print_option print_option)
 {
-	if (!state)
-		return ;
-	if (push_top(&state->stack_b, &state->stack_a))
-		ft_printf("pa\n");
+	if (state && push_top(&state->stack_b, &state->stack_a))
+	{
+		if (print_option == MOVE_PRINT_TO_SCREEN)
+			ft_printf("pa\n");
+		return (1);
+	}
+	return (0);
 }
 
-void	push_top_a_to_top_b_n_times(t_state *state, int n_times)
+int	push_top_a_to_top_b_n_times(t_state *state, int n_times, t_move_print_option print_option)
 {
 	while (n_times--)
-		push_top_a_to_top_b(state);
+		if (!push_top_a_to_top_b(state, print_option))
+			return (0);
+	return (1);
 }
 
-void	push_top_b_to_top_a_n_times(t_state *state, int n_times)
+int	push_top_b_to_top_a_n_times(t_state *state, int n_times, t_move_print_option print_option)
 {
 	while (n_times--)
-		push_top_b_to_top_a(state);
+		if (!push_top_b_to_top_a(state, print_option))
+			return (0);
+	return (1);
 }

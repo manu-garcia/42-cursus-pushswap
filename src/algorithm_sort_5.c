@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   algorithm_sort_5.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: manu <manu@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: manugarc <manugarc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/04 21:07:33 by manu              #+#    #+#             */
-/*   Updated: 2022/07/04 21:13:58 by manu             ###   ########.fr       */
+/*   Updated: 2022/07/09 15:15:33 by manugarc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,8 +65,8 @@ void	algorithm_sort_5(t_state *state)
             if (get_node_number(aux_node) == get_node_number(smallest_node) ||
                 get_node_number(aux_node) == get_node_number(second_smallest_node))
             {
-                apply_move(state, MOVE_RA, n_rotates);
-                apply_move(state, MOVE_PB, 1);
+                apply_move(state, MOVE_RA, n_rotates, MOVE_PRINT_TO_SCREEN);
+                apply_move(state, MOVE_PB, 1, MOVE_PRINT_TO_SCREEN);
                 n_moves_to_b++;
                 n_rotates = 0;
                 break;
@@ -80,7 +80,7 @@ void	algorithm_sort_5(t_state *state)
         algorithm_sort_3(state);
 
     if (get_node_number(state->stack_b) < get_node_number(state->stack_b->next))
-        apply_move(state, MOVE_SB, 1);
-    apply_move(state, MOVE_PA, 1);
-    apply_move(state, MOVE_PA, 1);
+        apply_move(state, MOVE_SB, 1, MOVE_PRINT_TO_SCREEN);
+    apply_move(state, MOVE_PA, 1, MOVE_PRINT_TO_SCREEN);
+    apply_move(state, MOVE_PA, 1, MOVE_PRINT_TO_SCREEN);
 }

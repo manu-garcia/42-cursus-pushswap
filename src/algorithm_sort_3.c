@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   algorithm_sort_3.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: manu <manu@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: manugarc <manugarc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/04 21:07:19 by manu              #+#    #+#             */
-/*   Updated: 2022/07/04 21:07:21 by manu             ###   ########.fr       */
+/*   Updated: 2022/07/09 15:14:36 by manugarc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,11 +31,11 @@ void	algorithm_sort_3(t_state *state)
 	{
 		if (get_node_number(first_node) < get_node_number(third_node))
 		{
-            apply_move(state, MOVE_SA, 1);
-            apply_move(state, MOVE_RA, 1);
+            apply_move(state, MOVE_SA, 1, MOVE_PRINT_TO_SCREEN);
+            apply_move(state, MOVE_RA, 1, MOVE_PRINT_TO_SCREEN);
 		}
 		else
-            apply_move(state, MOVE_RRA, 1);
+            apply_move(state, MOVE_RRA, 1, MOVE_PRINT_TO_SCREEN);
 	}
 	else
 	{
@@ -43,13 +43,13 @@ void	algorithm_sort_3(t_state *state)
 		{
 			if (get_node_number(second_node) > get_node_number(third_node))
 			{
-                apply_move(state, MOVE_SA, 1);
-                apply_move(state, MOVE_RRA, 1);
+                apply_move(state, MOVE_SA, 1, MOVE_PRINT_TO_SCREEN);
+                apply_move(state, MOVE_RRA, 1, MOVE_PRINT_TO_SCREEN);
 			}
 			else
-                apply_move(state, MOVE_RA, 1);
+                apply_move(state, MOVE_RA, 1, MOVE_PRINT_TO_SCREEN);
 		}
 		else
-            apply_move(state, MOVE_SA, 1);
+            apply_move(state, MOVE_SA, 1, MOVE_PRINT_TO_SCREEN);
 	}
 }

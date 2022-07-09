@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   move.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: manu <manu@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: manugarc <manugarc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/04 16:50:42 by manu              #+#    #+#             */
-/*   Updated: 2022/07/05 17:56:54 by manu             ###   ########.fr       */
+/*   Updated: 2022/07/09 15:13:31 by manugarc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,11 @@
 #define MOVE_H
 
 #include "push_swap.h"
+
+typedef enum e_move_print_option {
+    MOVE_PRINT_NOTHING = -1,
+    MOVE_PRINT_TO_SCREEN = 1,
+}	t_move_print_option;
 
 typedef enum e_move_type {
     MOVE_NOTHING = 0,
@@ -46,6 +51,7 @@ typedef struct s_move
 }   t_move;
 
 t_move  *get_best_move(t_state *state);
-void    apply_move(t_state *state, t_move_type move_type, int number_moves);
+void    apply_move(t_state *state, t_move_type move_type, int number_moves, t_move_print_option print_option);
+
 
 #endif

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   move.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: manu <manu@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: manugarc <manugarc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/04 21:09:22 by manu              #+#    #+#             */
-/*   Updated: 2022/07/05 20:50:09 by manu             ###   ########.fr       */
+/*   Updated: 2022/07/09 15:13:03 by manugarc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -157,52 +157,32 @@ t_move  *get_best_move(t_state *state)
     return best_move;
 }
 
-void    apply_move(t_state *state, t_move_type move_type, int number_moves)
+void    apply_move(t_state *state, t_move_type move_type, int number_moves, t_move_print_option print_option)
 {
+	int move_result;
+
     if (move_type == MOVE_PA)
-    {
-        push_top_b_to_top_a_n_times(state, number_moves);
-    }
+        move_result = push_top_b_to_top_a_n_times(state, number_moves, print_option);
     else if (move_type == MOVE_PB)
-    {
-        push_top_a_to_top_b_n_times(state, number_moves);
-    }
+        move_result = push_top_a_to_top_b_n_times(state, number_moves, print_option);
     else if (move_type == MOVE_RA)
-    {
-        rotate_stack_a_n_times(state, number_moves);
-    }
+        move_result = rotate_stack_a_n_times(state, number_moves, print_option);
     else if (move_type == MOVE_RB)
-    {
-        rotate_stack_b_n_times(state, number_moves);
-    }
+        move_result = rotate_stack_b_n_times(state, number_moves, print_option);
     else if (move_type == MOVE_RR)
-    {
-        rotate_stack_a_and_b_n_times(state, number_moves);
-    }
+        move_result = rotate_stack_a_and_b_n_times(state, number_moves, print_option);
     else if (move_type == MOVE_RRA)
-    {
-        reverse_rotate_stack_a_n_times(state, number_moves);
-    }
+        move_result = reverse_rotate_stack_a_n_times(state, number_moves, print_option);
     else if (move_type == MOVE_RRB)
-    {
-        reverse_rotate_stack_b_n_times(state, number_moves);
-    }
+        move_result = reverse_rotate_stack_b_n_times(state, number_moves, print_option);
     else if (move_type == MOVE_RRR)
-    {
-        reverse_rotate_stack_a_and_b_n_times(state, number_moves);
-    }
+        move_result = reverse_rotate_stack_a_and_b_n_times(state, number_moves, print_option);
     else if (move_type == MOVE_SA)
-    {
-        swap_stack_a_top_nodes(state);
-    }
+        move_result = swap_stack_a_top_nodes(state, print_option);
     else if (move_type == MOVE_SB)
-    {
-        swap_stack_b_top_nodes(state);
-    }
+        move_result = swap_stack_b_top_nodes(state, print_option);
     else if (move_type == MOVE_SS)
-    {
-        swap_stack_a_and_b_top_nodes(state);
-    }
+        move_result = swap_stack_a_and_b_top_nodes(state, print_option);
     else if (move_type != MOVE_NOTHING)
     {
     	printf("\n\n\nInternal Error applying move type (%d)\n", move_type);

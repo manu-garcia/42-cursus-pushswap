@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   checker.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: manu <manu@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: manugarc <manugarc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/20 19:14:56 by manu              #+#    #+#             */
-/*   Updated: 2022/07/05 20:50:00 by manu             ###   ########.fr       */
+/*   Updated: 2022/07/09 15:16:36 by manugarc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ int	main(int argc, char *argv[])
 		if (get_move_type(user_input) == MOVE_NOTHING)
 			break;
 		else
-			apply_move(&state, get_move_type(user_input), 1);
+			apply_move(&state, get_move_type(user_input), 1, MOVE_PRINT_NOTHING);
 	}
 
 	print_stack_a(&state);

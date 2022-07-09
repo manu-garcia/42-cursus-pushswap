@@ -3,15 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   moves_rotate.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: manu <manu@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: manugarc <manugarc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/20 19:15:25 by manu              #+#    #+#             */
-/*   Updated: 2022/07/01 21:41:13 by manu             ###   ########.fr       */
+/*   Updated: 2022/07/09 15:10:07 by manugarc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 #include "ft_printf.h"
+#include "move.h"
 
 static int	rotate_stack(t_list **stack)
 {
@@ -26,48 +27,61 @@ static int	rotate_stack(t_list **stack)
 	return (1);
 }
 
-int	rotate_stack_a(t_state *state)
+int	rotate_stack_a(t_state *state, t_move_print_option print_option)
 {
-	if (!state || !rotate_stack(&state->stack_a))
-		return (0);
-	ft_printf("ra\n");
-	return (1);
-}
-
-int	rotate_stack_b(t_state *state)
-{
-	if (!state || !rotate_stack(&state->stack_b))
-		return (0);
-	ft_printf("rb\n");
-	return (1);
-}
-
-void	rotate_stack_a_n_times(t_state *state, int n_times)
-{
-	while (n_times--)
-		rotate_stack_a(state);
-}
-
-void	rotate_stack_b_n_times(t_state *state, int n_times)
-{
-	while (n_times--)
-		rotate_stack_b(state);
-}
-
-int	rotate_stack_a_and_b(t_state *state)
-{
-	if (!state
-		|| !rotate_stack(&state->stack_a)
-		|| !rotate_stack(&state->stack_b))
+	if (state && rotate_stack(&state->stack_a))
 	{
-		return (0);
+		if (print_option == MOVE_PRINT_TO_SCREEN)
+			ft_printf("ra\n");
+		return (1);
 	}
-	ft_printf("rr\n");
+	return (0);
+}
+
+int	rotate_stack_b(t_state *state, t_move_print_option print_option)
+{
+	if (state && rotate_stack(&state->stack_b))
+	{
+		if (print_option == MOVE_PRINT_TO_SCREEN)
+			ft_printf("rb\n");
+		return (1);
+	}
+	return (0);
+}
+
+int	rotate_stack_a_n_times(t_state *state, int n_times, t_move_print_option print_option)
+{
+	while (n_times--)
+		if (!rotate_stack_a(state, print_option))
+			return (0);
 	return (1);
 }
 
-void	rotate_stack_a_and_b_n_times(t_state *state, int n_times)
+int	rotate_stack_b_n_times(t_state *state, int n_times, t_move_print_option print_option)
 {
 	while (n_times--)
-		rotate_stack_a_and_b(state);
+		if (!rotate_stack_b(state, print_option))
+			return (0);
+	return (1);
+}
+
+int	rotate_stack_a_and_b(t_state *state, t_move_print_option print_option)
+{
+	if (state
+		&& rotate_stack(&state->stack_a)
+		&& rotate_stack(&state->stack_b))
+	{
+		if (print_option == MOVE_PRINT_TO_SCREEN)
+			ft_printf("rr\n");
+		return (1);
+	}
+	return (0);
+}
+
+int	rotate_stack_a_and_b_n_times(t_state *state, int n_times, t_move_print_option print_option)
+{
+	while (n_times--)
+		if (!rotate_stack_a_and_b(state, print_option))
+			return (0);
+	return (1);
 }
