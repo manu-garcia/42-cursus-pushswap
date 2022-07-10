@@ -3,15 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   stack_printing.h                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: manu <manu@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: manugarc <manugarc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/20 19:13:41 by manu              #+#    #+#             */
-/*   Updated: 2022/06/20 20:36:26 by manu             ###   ########.fr       */
+/*   Updated: 2022/07/10 10:31:49 by manugarc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PRINT_STACK_H
-# define PRINT_STACK_H
+#ifndef STACK_PRINTING_H
+# define STACK_PRINTING_H
 
 # include "push_swap.h"
 
