@@ -6,14 +6,14 @@
 /*   By: manugarc <manugarc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/04 21:09:22 by manu              #+#    #+#             */
-/*   Updated: 2022/07/09 18:56:07 by manugarc         ###   ########.fr       */
+/*   Updated: 2022/07/10 09:51:05 by manugarc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <limits.h>
 #include <stdlib.h>
 #include <stdio.h>
-#include <unistd.h> // write
+#include <unistd.h>
 
 #include "push_swap.h"
 #include "moves_push.h"
@@ -86,12 +86,10 @@ void optimize_move(t_move *move)
 
     if (move->move_type_a == MOVE_RA && move->move_type_b == MOVE_RB)
     {
-        // printf("Same movement on both. Type (RR). N moves in A (%d). N moves in B (%d)\n", move->number_moves_a, move->number_moves_b);
         move->move_type_both = MOVE_RR;
     }
     else if (move->move_type_a == MOVE_RRA && move->move_type_b == MOVE_RRB) // MOVE_RRR
     {
-        // printf("Same movement on both. Type (RRR). N moves in A (%d). N moves in B (%d)\n", move->number_moves_a, move->number_moves_b);
         move->move_type_both = MOVE_RRR;
     }
 
@@ -127,7 +125,7 @@ t_move  *get_best_move(t_state *state)
     {
         moves[i] = (t_move *)ft_calloc(1, sizeof(t_move));
         if (!moves[i])
-			exit_with_error(&state);
+			exit_with_error(state);
         (moves[i])->n = get_node_number(stack_a);
         stack_a = stack_a->next;
         i++;
@@ -145,17 +143,26 @@ t_move  *get_best_move(t_state *state)
     }
 
     t_move  *best_move = NULL;
+	int		is_there_best_move = 0;
+	best_move = (t_move *)ft_calloc(1, sizeof(t_move));
+
     i=0;
     while(i<size_a)
     {
-        if (!best_move || (moves[i]->number_moves_total) < best_move->number_moves_total)
-            best_move = moves[i];
+        if (!is_there_best_move || (moves[i]->number_moves_total) < best_move->number_moves_total){
+			ft_memcpy(best_move, moves[i], sizeof(t_move));
+			is_there_best_move = 1;
+		}
         i++;
     }
 
-    // free all moves
-    // free **moves
-    // malloc of a new best_move and return it. Caller should free it
+    i=0;
+    while(i<size_a)
+    {
+        free(moves[i]);
+        i++;
+    }
+	free(moves);
     return best_move;
 }
 

@@ -6,11 +6,12 @@
 /*   By: manugarc <manugarc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/20 19:14:56 by manu              #+#    #+#             */
-/*   Updated: 2022/07/09 15:15:02 by manugarc         ###   ########.fr       */
+/*   Updated: 2022/07/10 09:29:05 by manugarc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <limits.h>
+#include <stdlib.h>
 
 #include "push_swap.h"
 #include "moves_push.h"
@@ -32,6 +33,7 @@ int	algorithm_2_best_a_and_b_move(t_state *state)
         apply_move(state, best_move->move_type_a, best_move->number_moves_a, MOVE_PRINT_TO_SCREEN);
         apply_move(state, best_move->move_type_b, best_move->number_moves_b, MOVE_PRINT_TO_SCREEN);
         apply_move(state, MOVE_PB, 1, MOVE_PRINT_TO_SCREEN);
+		free(best_move);
         i++;
     }
 
