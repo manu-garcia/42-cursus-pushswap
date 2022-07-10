@@ -6,7 +6,7 @@
 /*   By: manugarc <manugarc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/20 19:15:35 by manu              #+#    #+#             */
-/*   Updated: 2022/07/09 15:09:15 by manugarc         ###   ########.fr       */
+/*   Updated: 2022/07/10 12:50:52 by manugarc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,8 @@ int	swap_stack_b_top_nodes(t_state *state, t_move_print_option print_option)
 	return (0);
 }
 
-int	swap_stack_a_and_b_top_nodes(t_state *state, t_move_print_option print_option)
+int	swap_stack_a_and_b_top_nodes(t_state *state,
+	t_move_print_option print_option)
 {
 	if (state
 		&& swap_stack_top_nodes(&state->stack_a)

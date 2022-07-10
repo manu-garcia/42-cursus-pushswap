@@ -6,7 +6,7 @@
 /*   By: manugarc <manugarc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/20 19:14:56 by manu              #+#    #+#             */
-/*   Updated: 2022/07/09 17:04:57 by manugarc         ###   ########.fr       */
+/*   Updated: 2022/07/10 12:42:45 by manugarc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,58 +38,54 @@ static int	validate_input_parameters(int argc, char *argv[])
 static t_move_type	get_move_type(char *str_move)
 {
 	if (!ft_strncmp("rra", str_move, 3))
-		return MOVE_RRA;
+		return (MOVE_RRA);
 	else if (!ft_strncmp("rrb", str_move, 3))
-		return MOVE_RRB;
+		return (MOVE_RRB);
 	else if (!ft_strncmp("rrr", str_move, 3))
-		return MOVE_RRR;
+		return (MOVE_RRR);
 	else if (!ft_strncmp("ra", str_move, 2))
-		return MOVE_RA;
+		return (MOVE_RA);
 	else if (!ft_strncmp("rb", str_move, 2))
-		return MOVE_RB;
+		return (MOVE_RB);
 	else if (!ft_strncmp("rr", str_move, 2))
-		return MOVE_RR;
+		return (MOVE_RR);
 	else if (!ft_strncmp("sa", str_move, 2))
-		return MOVE_SA;
+		return (MOVE_SA);
 	else if (!ft_strncmp("sb", str_move, 2))
-		return MOVE_SB;
+		return (MOVE_SB);
 	else if (!ft_strncmp("ss", str_move, 2))
-		return MOVE_SS;
+		return (MOVE_SS);
 	else if (!ft_strncmp("pa", str_move, 2))
-		return MOVE_PA;
+		return (MOVE_PA);
 	else if (!ft_strncmp("pb", str_move, 2))
-		return MOVE_PB;
-	return MOVE_NOTHING;
+		return (MOVE_PB);
+	return (MOVE_NOTHING);
 }
 
 int	main(int argc, char *argv[])
 {
 	t_state	state;
 	char	user_input[MAX_USER_INPUT_LENGTH];
+	int		user_input_length;
 
-	if (argc <= 1)
+	if (argc <= 1 || !validate_input_parameters(argc, argv))
 		exit_without_error(&state);
-	if (!validate_input_parameters(argc, argv))
-		exit_with_error(&state);
 	if (!get_numbers_from_input(argc, argv, &state))
 		exit_with_error(&state);
-	if (ft_lstsize(state.stack_a) < 2)
+	if (ft_lstsize(state.stack_a) < 2 || is_stack_sorted(state.stack_a))
 		exit_without_error(&state);
-	if (is_stack_sorted(state.stack_a))
-		exit_without_error(&state);
-
-	int user_input_length;
-    while ((user_input_length = read(STDIN_FILENO, &user_input, MAX_USER_INPUT_LENGTH)) != -1)
+	user_input_length = read(STDIN_FILENO, &user_input,
+			MAX_USER_INPUT_LENGTH);
+	while (user_input_length != -1)
 	{
 		user_input[user_input_length - 1] = '\0';
 		if (get_move_type(user_input) == MOVE_NOTHING)
-			break;
+			break ;
 		else
-			apply_move(&state, get_move_type(user_input), 1, MOVE_PRINT_NOTHING);
+			apply_move(&state, get_move_type(user_input), 1,
+				MOVE_PRINT_NOTHING);
+		user_input_length = read(STDIN_FILENO, &user_input,
+				MAX_USER_INPUT_LENGTH);
 	}
-
-	// print_stack_a(&state);
-	// print_stack_b(&state);
-
 	exit_without_error(&state);
 }

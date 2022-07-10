@@ -6,7 +6,7 @@
 /*   By: manugarc <manugarc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/20 19:14:56 by manu              #+#    #+#             */
-/*   Updated: 2022/07/09 18:56:16 by manugarc         ###   ########.fr       */
+/*   Updated: 2022/07/10 13:01:24 by manugarc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,13 +33,13 @@ static t_number	*str_to_number(char *str)
 	t_number	*number;
 
 	if (!is_valid_number(str))
-		return NULL;
+		return (NULL);
 	number = (t_number *)ft_calloc(1, sizeof(t_number));
 	if (!number)
-		return NULL;
+		return (NULL);
 	number->n = ft_atoi(str);
 	if (!is_valid_int(number->n))
-		return NULL;
+		return (NULL);
 	return (number);
 }
 
@@ -54,7 +54,7 @@ static int	is_duplicated_number(t_list *stack, t_number *number)
 	return (0);
 }
 
-void free_split(char **split)
+void	free_split(char **split)
 {
 	int		index;
 
@@ -71,8 +71,8 @@ void free_split(char **split)
 
 int	space_separated_numbers_to_stack(char *numbers, t_list **stack)
 {
-	int		index;
-	char	**split;
+	int			index;
+	char		**split;
 	t_number	*number;
 
 	if (!stack || !numbers)

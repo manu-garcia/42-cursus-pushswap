@@ -6,7 +6,7 @@
 /*   By: manugarc <manugarc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/20 19:15:16 by manu              #+#    #+#             */
-/*   Updated: 2022/07/09 15:10:41 by manugarc         ###   ########.fr       */
+/*   Updated: 2022/07/10 12:50:21 by manugarc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,8 @@ int	reverse_rotate_stack_b(t_state *state, t_move_print_option print_option)
 	return (0);
 }
 
-int	reverse_rotate_stack_a_n_times(t_state *state, int n_times, t_move_print_option print_option)
+int	reverse_rotate_stack_a_n_times(t_state *state, int n_times,
+	t_move_print_option print_option)
 {
 	while (n_times--)
 		if (!reverse_rotate_stack_a(state, print_option))
@@ -66,7 +67,8 @@ int	reverse_rotate_stack_a_n_times(t_state *state, int n_times, t_move_print_opt
 	return (1);
 }
 
-int	reverse_rotate_stack_b_n_times(t_state *state, int n_times, t_move_print_option print_option)
+int	reverse_rotate_stack_b_n_times(t_state *state, int n_times,
+	t_move_print_option print_option)
 {
 	while (n_times--)
 		if (!reverse_rotate_stack_b(state, print_option))
@@ -74,7 +76,8 @@ int	reverse_rotate_stack_b_n_times(t_state *state, int n_times, t_move_print_opt
 	return (1);
 }
 
-int	reverse_rotate_stack_a_and_b(t_state *state, t_move_print_option print_option)
+int	reverse_rotate_stack_a_and_b(t_state *state,
+	t_move_print_option print_option)
 {
 	if (state
 		&& reverse_rotate_stack(&state->stack_a)
@@ -87,7 +90,8 @@ int	reverse_rotate_stack_a_and_b(t_state *state, t_move_print_option print_optio
 	return (0);
 }
 
-int	reverse_rotate_stack_a_and_b_n_times(t_state *state, int n_times, t_move_print_option print_option)
+int	reverse_rotate_stack_a_and_b_n_times(t_state *state, int n_times,
+	t_move_print_option print_option)
 {
 	while (n_times--)
 		if (!reverse_rotate_stack_a_and_b(state, print_option))
