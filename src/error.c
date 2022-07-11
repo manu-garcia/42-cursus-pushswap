@@ -6,7 +6,7 @@
 /*   By: manugarc <manugarc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/04 16:36:48 by manugarc          #+#    #+#             */
-/*   Updated: 2022/07/11 11:34:19 by manugarc         ###   ########.fr       */
+/*   Updated: 2022/07/11 13:56:46 by manugarc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,11 @@ static void	exit_with_code(int code, t_state *state)
 	exit(code);
 }
 
-void	exit_with_internal_error(t_state *state)
+int	exit_with_internal_error(t_state *state)
 {
 	ft_printf("\n%s\n", "Internal error getting comunication state");
 	exit_with_code(ERROR_INTERNAL, state);
+	return (1);
 }
 
 void	exit_with_memory_error(t_state *state)
