@@ -6,7 +6,7 @@
 /*   By: manugarc <manugarc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/04 21:07:33 by manu              #+#    #+#             */
-/*   Updated: 2022/07/11 11:26:30 by manugarc         ###   ########.fr       */
+/*   Updated: 2022/07/11 15:05:50 by manugarc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 #include "stack_sorting.h"
 #include "algorithm_sort_3.h"
 #include "move.h"
+#include "move_apply.h"
+#include "move_optimize.h"
 
 static void	get_smallest_two_nodes(t_list *stack, t_list **smallest_node,
 	t_list **second_smallest_node)

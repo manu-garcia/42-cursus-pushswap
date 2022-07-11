@@ -6,7 +6,7 @@
 #    By: manugarc <manugarc@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/23 20:21:02 by manu              #+#    #+#              #
-#    Updated: 2022/07/11 11:51:18 by manugarc         ###   ########.fr        #
+#    Updated: 2022/07/11 15:05:06 by manugarc         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,7 @@ NAME				=	push_swap
 SRC_DIR				=	src
 INCLUDES_DIR		= 	includes
 
-SOURCES				=	$(SRC_DIR)/error.c $(SRC_DIR)/moves_push.c $(SRC_DIR)/stack_printing.c $(SRC_DIR)/moves_swap.c $(SRC_DIR)/moves_rotate.c $(SRC_DIR)/moves_reverse_rotate.c $(SRC_DIR)/number_validation.c $(SRC_DIR)/stack_node.c $(SRC_DIR)/stack_sorting.c $(SRC_DIR)/get_number_moves.c $(SRC_DIR)/stack_init.c $(SRC_DIR)/algorithm_2_best_a_and_b_move.c $(SRC_DIR)/algorithm_sort_3.c $(SRC_DIR)/algorithm_sort_5.c $(SRC_DIR)/move.c $(SRC_DIR)/stack_free.c $(SRC_DIR)/ft_min.c
+SOURCES				=	$(SRC_DIR)/error.c $(SRC_DIR)/moves_push.c $(SRC_DIR)/stack_printing.c $(SRC_DIR)/moves_swap.c $(SRC_DIR)/moves_rotate.c $(SRC_DIR)/moves_reverse_rotate.c $(SRC_DIR)/number_validation.c $(SRC_DIR)/stack_node.c $(SRC_DIR)/stack_sorting.c $(SRC_DIR)/get_number_moves.c $(SRC_DIR)/stack_init.c $(SRC_DIR)/algorithm_2_best_a_and_b_move.c $(SRC_DIR)/algorithm_sort_3.c $(SRC_DIR)/algorithm_sort_5.c $(SRC_DIR)/stack_free.c $(SRC_DIR)/ft_min.c $(SRC_DIR)/move_apply.c $(SRC_DIR)/move_best.c $(SRC_DIR)/move_number.c $(SRC_DIR)/move_optimize.c
 MAIN_SOURCES		= 	$(SRC_DIR)/main.c $(SOURCES)
 TEST_SOURCES		= 	$(SRC_DIR)/tests.c $(SOURCES)
 CHECKER_SOURCES		= 	$(SRC_DIR)/checker.c $(SOURCES)

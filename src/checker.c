@@ -6,7 +6,7 @@
 /*   By: manugarc <manugarc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/20 19:14:56 by manu              #+#    #+#             */
-/*   Updated: 2022/07/10 12:42:45 by manugarc         ###   ########.fr       */
+/*   Updated: 2022/07/11 15:25:44 by manugarc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 #include "algorithm_sort_3.h"
 #include "algorithm_sort_5.h"
 #include "move.h"
+#include "move_apply.h"
 
 #define MAX_USER_INPUT_LENGTH 4
 

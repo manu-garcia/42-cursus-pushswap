@@ -6,13 +6,14 @@
 /*   By: manugarc <manugarc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/04 21:07:19 by manu              #+#    #+#             */
-/*   Updated: 2022/07/10 11:36:19 by manugarc         ###   ########.fr       */
+/*   Updated: 2022/07/11 15:03:11 by manugarc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 #include "stack_node.h"
 #include "move.h"
+#include "move_apply.h"
 
 static void	sort_if_first_node_smaller(t_state *state, t_list *first_node,
 	t_list *third_node)

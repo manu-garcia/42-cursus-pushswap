@@ -6,7 +6,7 @@
 /*   By: manugarc <manugarc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/04 16:50:42 by manu              #+#    #+#             */
-/*   Updated: 2022/07/11 12:08:12 by manugarc         ###   ########.fr       */
+/*   Updated: 2022/07/11 15:01:40 by manugarc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,9 +49,5 @@ typedef struct s_move
 	t_move_type	move_type_b;
 	t_move_type	move_type_both;
 }	t_move;
-
-t_move	*get_best_move(t_state *state);
-int		apply_move(t_state *state, t_move_type move_type,
-			int number_moves, t_move_print_option print_option);
 
 #endif

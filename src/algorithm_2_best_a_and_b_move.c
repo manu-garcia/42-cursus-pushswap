@@ -6,7 +6,7 @@
 /*   By: manugarc <manugarc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/20 19:14:56 by manu              #+#    #+#             */
-/*   Updated: 2022/07/10 10:42:55 by manugarc         ###   ########.fr       */
+/*   Updated: 2022/07/11 15:02:57 by manugarc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@
 #include "moves_push.h"
 #include "get_number_moves.h"
 #include "move.h"
+#include "move_best.h"
+#include "move_apply.h"
 
 static void	apply_best_move(t_state *state)
 {
