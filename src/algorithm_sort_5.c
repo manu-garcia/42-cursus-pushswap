@@ -6,7 +6,7 @@
 /*   By: manugarc <manugarc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/04 21:07:33 by manu              #+#    #+#             */
-/*   Updated: 2022/07/10 12:33:52 by manugarc         ###   ########.fr       */
+/*   Updated: 2022/07/11 11:26:30 by manugarc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,32 +46,29 @@ static void	get_smallest_two_nodes(t_list *stack, t_list **smallest_node,
 
 void	algorithm_sort_5_2(t_state *state)
 {
-	t_list	*smallest_node;
-	t_list	*second_smallest;
-	t_list	*aux_node;
+	t_list	*smallest[2];
+	t_list	*aux;
 	int		n_moves_to_b;
 	int		n_rotates;
 
-	get_smallest_two_nodes(state->stack_a, &smallest_node, &second_smallest);
+	get_smallest_two_nodes(state->stack_a, &smallest[0], &smallest[1]);
 	n_moves_to_b = 0;
-	n_rotates = 0;
 	while (n_moves_to_b < 2)
 	{
-		aux_node = state->stack_a;
-		while (aux_node)
+		n_rotates = 0;
+		aux = state->stack_a;
+		while (aux)
 		{
-			if (get_node_number(aux_node) == get_node_number(smallest_node)
-				|| get_node_number(aux_node) == get_node_number(second_smallest)
-			)
+			if (get_node_number(aux) == get_node_number(smallest[0])
+				|| get_node_number(aux) == get_node_number(smallest[1]))
 			{
 				apply_move(state, MOVE_RA, n_rotates, MOVE_PRINT_TO_SCREEN);
 				apply_move(state, MOVE_PB, 1, MOVE_PRINT_TO_SCREEN);
 				n_moves_to_b++;
-				n_rotates = 0;
 				break ;
 			}
 			n_rotates++;
-			aux_node = aux_node->next;
+			aux = aux->next;
 		}
 	}
 }
