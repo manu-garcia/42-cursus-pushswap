@@ -6,7 +6,7 @@
 /*   By: manugarc <manugarc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/04 21:09:22 by manu              #+#    #+#             */
-/*   Updated: 2022/07/12 10:27:53 by manugarc         ###   ########.fr       */
+/*   Updated: 2022/07/12 10:32:17 by manugarc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include "moves_push.h"
 #include "moves_swap.h"
 #include "moves_rotate.h"
+#include "moves_rotate_times.h"
 #include "moves_reverse_rotate.h"
 #include "moves_reverse_rotate_times.h"
 #include "move.h"

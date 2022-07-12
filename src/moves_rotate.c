@@ -6,7 +6,7 @@
 /*   By: manugarc <manugarc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/20 19:15:25 by manu              #+#    #+#             */
-/*   Updated: 2022/07/10 12:50:45 by manugarc         ###   ########.fr       */
+/*   Updated: 2022/07/12 10:31:25 by manugarc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,24 +49,6 @@ int	rotate_stack_b(t_state *state, t_move_print_option print_option)
 	return (0);
 }
 
-int	rotate_stack_a_n_times(t_state *state, int n_times,
-	t_move_print_option print_option)
-{
-	while (n_times--)
-		if (!rotate_stack_a(state, print_option))
-			return (0);
-	return (1);
-}
-
-int	rotate_stack_b_n_times(t_state *state, int n_times,
-	t_move_print_option print_option)
-{
-	while (n_times--)
-		if (!rotate_stack_b(state, print_option))
-			return (0);
-	return (1);
-}
-
 int	rotate_stack_a_and_b(t_state *state,
 	t_move_print_option print_option)
 {
@@ -79,13 +61,4 @@ int	rotate_stack_a_and_b(t_state *state,
 		return (1);
 	}
 	return (0);
-}
-
-int	rotate_stack_a_and_b_n_times(t_state *state, int n_times,
-	t_move_print_option print_option)
-{
-	while (n_times--)
-		if (!rotate_stack_a_and_b(state, print_option))
-			return (0);
-	return (1);
 }
