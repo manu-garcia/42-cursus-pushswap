@@ -6,7 +6,7 @@
 /*   By: manugarc <manugarc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/20 19:14:56 by manu              #+#    #+#             */
-/*   Updated: 2022/07/12 16:05:56 by manugarc         ###   ########.fr       */
+/*   Updated: 2022/07/12 19:02:50 by manugarc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,27 +39,27 @@ static int	validate_input_parameters(int argc, char *argv[])
 
 static t_move_type	get_move_type(char *str_move)
 {
-	if (!ft_strncmp("rra", str_move, 3))
+	if (!ft_strncmp("rra\0", str_move, 4))
 		return (MOVE_RRA);
-	else if (!ft_strncmp("rrb", str_move, 3))
+	else if (!ft_strncmp("rrb\0", str_move, 4))
 		return (MOVE_RRB);
-	else if (!ft_strncmp("rrr", str_move, 3))
+	else if (!ft_strncmp("rrr\0", str_move, 4))
 		return (MOVE_RRR);
-	else if (!ft_strncmp("ra", str_move, 2))
+	else if (!ft_strncmp("ra\0", str_move, 3))
 		return (MOVE_RA);
-	else if (!ft_strncmp("rb", str_move, 2))
+	else if (!ft_strncmp("rb\0", str_move, 3))
 		return (MOVE_RB);
-	else if (!ft_strncmp("rr", str_move, 2))
+	else if (!ft_strncmp("rr\0", str_move, 3))
 		return (MOVE_RR);
-	else if (!ft_strncmp("sa", str_move, 2))
+	else if (!ft_strncmp("sa\0", str_move, 3))
 		return (MOVE_SA);
-	else if (!ft_strncmp("sb", str_move, 2))
+	else if (!ft_strncmp("sb\0", str_move, 3))
 		return (MOVE_SB);
-	else if (!ft_strncmp("ss", str_move, 2))
+	else if (!ft_strncmp("ss\0", str_move, 3))
 		return (MOVE_SS);
-	else if (!ft_strncmp("pa", str_move, 2))
+	else if (!ft_strncmp("pa\0", str_move, 3))
 		return (MOVE_PA);
-	else if (!ft_strncmp("pb", str_move, 2))
+	else if (!ft_strncmp("pb\0", str_move, 3))
 		return (MOVE_PB);
 	return (MOVE_NOTHING);
 }
@@ -95,7 +95,10 @@ int	main(int argc, char *argv[])
 	while (get_move((char *)&user_input) != -1)
 	{
 		if (get_move_type(user_input) == MOVE_NOTHING)
-			break ;
+		{
+			ft_printf("Error\n");
+			continue ;
+		}
 		apply_move(&state, get_move_type(user_input), 1, MOVE_PRINT_NOTHING);
 		print_stack_a(&state);
 		print_stack_b(&state);
