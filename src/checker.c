@@ -6,7 +6,7 @@
 /*   By: manugarc <manugarc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/20 19:14:56 by manu              #+#    #+#             */
-/*   Updated: 2022/07/11 15:25:44 by manugarc         ###   ########.fr       */
+/*   Updated: 2022/07/12 16:05:56 by manugarc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@
 #include "algorithm_sort_5.h"
 #include "move.h"
 #include "move_apply.h"
+#include "ft_printf.h"
 
 #define MAX_USER_INPUT_LENGTH 4
 
@@ -63,30 +64,46 @@ static t_move_type	get_move_type(char *str_move)
 	return (MOVE_NOTHING);
 }
 
+static void	init_state(int argc, char *argv[], t_state *state)
+{
+	if (argc <= 1 || !validate_input_parameters(argc, argv))
+		exit_without_error(state);
+	if (!get_numbers_from_input(argc, argv, state))
+		exit_with_error(state);
+	if (ft_lstsize(state->stack_a) < 2 || is_stack_sorted(state->stack_a))
+		exit_without_error(state);
+}
+
+static int	get_move(char *user_input)
+{
+	int	length;
+
+	length = read(STDIN_FILENO, user_input, MAX_USER_INPUT_LENGTH);
+	if (length != -1)
+		user_input[length - 1] = '\0';
+	return (length);
+}
+
 int	main(int argc, char *argv[])
 {
 	t_state	state;
 	char	user_input[MAX_USER_INPUT_LENGTH];
-	int		user_input_length;
 
-	if (argc <= 1 || !validate_input_parameters(argc, argv))
-		exit_without_error(&state);
-	if (!get_numbers_from_input(argc, argv, &state))
-		exit_with_error(&state);
-	if (ft_lstsize(state.stack_a) < 2 || is_stack_sorted(state.stack_a))
-		exit_without_error(&state);
-	user_input_length = read(STDIN_FILENO, &user_input,
-			MAX_USER_INPUT_LENGTH);
-	while (user_input_length != -1)
+	init_state(argc, argv, &state);
+	print_stack_a(&state);
+	print_stack_b(&state);
+	while (get_move((char *)&user_input) != -1)
 	{
-		user_input[user_input_length - 1] = '\0';
 		if (get_move_type(user_input) == MOVE_NOTHING)
 			break ;
-		else
-			apply_move(&state, get_move_type(user_input), 1,
-				MOVE_PRINT_NOTHING);
-		user_input_length = read(STDIN_FILENO, &user_input,
-				MAX_USER_INPUT_LENGTH);
+		apply_move(&state, get_move_type(user_input), 1, MOVE_PRINT_NOTHING);
+		print_stack_a(&state);
+		print_stack_b(&state);
+		if (is_stack_sorted(state.stack_a))
+		{
+			ft_printf("OK\n");
+			break ;
+		}
 	}
 	exit_without_error(&state);
 }

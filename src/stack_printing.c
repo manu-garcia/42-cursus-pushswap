@@ -6,7 +6,7 @@
 /*   By: manugarc <manugarc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/20 19:15:44 by manu              #+#    #+#             */
-/*   Updated: 2022/07/10 13:06:37 by manugarc         ###   ########.fr       */
+/*   Updated: 2022/07/12 15:49:21 by manugarc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static void	print_stack_node_content(void *content)
 		ft_printf("No content\n");
 		return ;
 	}
-	printf("Content = %ld\n", ((t_number *)content)->n);
+	ft_printf("%d\n", (int)((t_number *)content)->n);
 }
 
 static void	print_stack(t_list *stack)
