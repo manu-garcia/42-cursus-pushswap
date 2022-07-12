@@ -6,7 +6,7 @@
 /*   By: manugarc <manugarc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 21:18:20 by manu              #+#    #+#             */
-/*   Updated: 2022/07/11 11:36:16 by manugarc         ###   ########.fr       */
+/*   Updated: 2022/07/12 12:50:42 by manugarc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,81 +27,95 @@
 #include "stack_node.h"
 #include "libft.h"
 
-int	get_distance_to_sorted_position(long n, t_list *stack, int stack_size)
+typedef struct s_distance
 {
-	int		distance_to_sorted_position;
-	int		distance_to_max_number;
+	int		d;
+	int		d_to_max;
 	long	max;
-	long	stack_node_number;
-	long	previous_stack_node_number;
-	int		trend_changed;
-	int		trend_direction;
-	int		numbers_processed;
+	long	nbr;
+	int		i;
+}	t_distance;
 
+static void	init_distance_struct(t_distance	*sd)
+{
+	sd->max = INT_MIN;
+	sd->d_to_max = 0;
+	sd->d = 0;
+	sd->nbr = INT_MIN;
+	sd->i = 0;
+}
+
+static int	basic_check(long n, t_list *stack, int stack_size, int *d)
+{
 	if (!stack_size)
-		return (0);
+	{
+		(*d) = 0;
+		return (1);
+	}
 	if (stack_size == 1)
 	{
 		if (n > get_node_number(stack))
-			return (0);
-		else
+		{
+			(*d) = 0;
 			return (1);
+		}
+		else
+		{
+			(*d) = 1;
+			return (1);
+		}
 	}
-	max = INT_MIN;
-	distance_to_max_number = 0;
-	distance_to_sorted_position = 0;
-	stack_node_number = INT_MIN;
-	trend_changed = 0;
-	trend_direction = 0;
-	numbers_processed = 0;
-	while (stack)
+	return (0);
+}
+
+static void	size_check(long n, t_list *stack, int stack_size, t_distance *sd)
+{
+	if (sd->d == stack_size && sd->d_to_max)
 	{
-		previous_stack_node_number = stack_node_number;
-		stack_node_number = get_node_number(stack);
-		numbers_processed++;
-		if (numbers_processed > 1)
-		{
-			if (previous_stack_node_number > stack_node_number)
-				trend_direction = 1;
-			else
-				trend_direction = -1;
-		}
-		if (trend_direction == -1)
-		{
-			if (previous_stack_node_number < stack_node_number
-				&& n > stack_node_number)
-				return (distance_to_sorted_position);
-		}
-		else if (trend_direction == 1)
-		{
-			if (previous_stack_node_number < n && n < stack_node_number)
-				return (distance_to_sorted_position);
-		}
-		if (n > stack_node_number && stack_node_number > max)
-		{
-			distance_to_max_number = distance_to_sorted_position;
-			max = stack_node_number;
-		}
-		else if (n < stack_node_number)
-			break ;
-		distance_to_sorted_position++;
-		stack = stack->next;
+		sd->d = sd->d_to_max;
+		return ;
 	}
-	if (distance_to_sorted_position == stack_size)
+	if (sd->d == stack_size && !sd->d_to_max)
 	{
-		if (distance_to_max_number)
-			return (distance_to_max_number);
-		return (0);
+		sd->d = 0;
+		return ;
 	}
 	while (stack && n < get_node_number(stack))
 	{
-		distance_to_sorted_position++;
+		sd->d++;
 		if (stack->next && (get_node_number(stack)
 				< get_node_number(stack->next)))
-			return (distance_to_sorted_position);
+			return ;
 		stack = stack->next;
 	}
-	if (distance_to_sorted_position == stack_size)
-		return (0);
-	return (distance_to_sorted_position);
+	if (sd->d == stack_size)
+	{
+		sd->d = 0;
+		return ;
+	}
+	return ;
+}
+
+int	get_distance_to_sorted_position(long n, t_list *stack, int stack_size)
+{
+	t_distance	sd;
+
+	if (basic_check(n, stack, stack_size, &(sd.d)))
+		return (sd.d);
+	init_distance_struct(&sd);
+	while (stack)
+	{
+		sd.nbr = get_node_number(stack);
+		if (n < sd.nbr)
+			break ;
+		if (n > sd.nbr && sd.nbr > sd.max)
+		{
+			sd.d_to_max = sd.d;
+			sd.max = sd.nbr;
+		}
+		sd.d++;
+		stack = stack->next;
+	}
+	size_check(n, stack, stack_size, &sd);
+	return (sd.d);
 }
