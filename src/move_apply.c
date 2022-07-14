@@ -6,7 +6,7 @@
 /*   By: manugarc <manugarc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/04 21:09:22 by manu              #+#    #+#             */
-/*   Updated: 2022/07/14 17:22:21 by manugarc         ###   ########.fr       */
+/*   Updated: 2022/07/14 18:03:40 by manugarc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ void	apply_move_list(t_state *state, t_move_type *moves)
 		}
 		apply_move(state, move, 1, MOVE_PRINT_NOTHING);
 	}
-	if (is_stack_sorted(state->stack_a))
+	if (is_stack_sorted(state->stack_a) && !ft_lstsize(state->stack_b))
 	{
 		print_stack_a(state);
 		print_stack_b(state);
