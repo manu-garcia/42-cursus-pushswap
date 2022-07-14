@@ -6,7 +6,7 @@
 /*   By: manugarc <manugarc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/20 19:14:56 by manu              #+#    #+#             */
-/*   Updated: 2022/07/12 19:02:50 by manugarc         ###   ########.fr       */
+/*   Updated: 2022/07/14 16:54:29 by manugarc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@
 #include "move_apply.h"
 #include "ft_printf.h"
 
-#define MAX_USER_INPUT_LENGTH 4
+#define MAX_USER_INPUT_LENGTH 100
 
 static int	validate_input_parameters(int argc, char *argv[])
 {
@@ -66,47 +66,138 @@ static t_move_type	get_move_type(char *str_move)
 
 static void	init_state(int argc, char *argv[], t_state *state)
 {
+	ft_memset(state, 0, sizeof(t_state));
 	if (argc <= 1 || !validate_input_parameters(argc, argv))
 		exit_without_error(state);
 	if (!get_numbers_from_input(argc, argv, state))
 		exit_with_error(state);
-	if (ft_lstsize(state->stack_a) < 2 || is_stack_sorted(state->stack_a))
+	if (ft_lstsize(state->stack_a) < 2)
 		exit_without_error(state);
 }
 
-static int	get_move(char *user_input)
+static char	**get_split_moves(char *user_input, int *n_moves)
 {
-	int	length;
+	char		*trimmed;
+	char		*tmp;
+	char		**split;
+
+	(*n_moves) = 0;
+	trimmed = ft_strtrim(user_input, "[]");
+	if (!trimmed)
+		return (NULL);
+	split = ft_split(trimmed, ',');
+	free(trimmed);
+	if (!split)
+		return (NULL);
+	while (split[(*n_moves)])
+	{
+		tmp = ft_strtrim(split[(*n_moves)], " ");
+		free(split[(*n_moves)]);
+		split[(*n_moves)] = tmp;
+		(*n_moves)++;
+	}
+	return (split);
+}
+
+static void	free_split(char **split)
+{
+	int	i;
+
+	i = 0;
+	while (split[i])
+	{
+		free(split[i]);
+		split[i] = NULL;
+	}
+	free(split);
+}
+
+static t_move_type	*split_to_moves(char **split, int n_moves)
+{
+	int			i;
+	t_move_type	*moves;
+
+	moves = (t_move_type *)ft_calloc(1, sizeof(t_move_type) * (n_moves + 1));
+	i = 0;
+	while (split[i] && n_moves--)
+	{
+		moves[i] = get_move_type(split[i]);
+		i++;
+	}
+	return (moves);
+}
+
+static int	get_move_list(char *user_input, t_move_type **moves, int *n_moves)
+{
+	int		length;
+	char	**split;
 
 	length = read(STDIN_FILENO, user_input, MAX_USER_INPUT_LENGTH);
 	if (length != -1)
+	{
 		user_input[length - 1] = '\0';
+		if (user_input[0] == '[')
+		{
+			split = get_split_moves(user_input, n_moves);
+			(*moves) = split_to_moves(split, (*n_moves));
+			free_split(split);
+		}
+		else
+		{
+			(*n_moves) = 1;
+			split = (char **)ft_calloc(1, sizeof(char *) * 2);
+			split[0] = ft_strdup(user_input);
+			split[1] = NULL;
+			(*moves) = split_to_moves(split, (*n_moves));
+			free_split(split);
+		}
+		return (1);
+	}
 	return (length);
 }
 
-int	main(int argc, char *argv[])
+void	apply_move_list(t_state *state, t_move_type *moves)
 {
-	t_state	state;
-	char	user_input[MAX_USER_INPUT_LENGTH];
+	t_move_type	move;
+	int			i;
 
-	init_state(argc, argv, &state);
-	print_stack_a(&state);
-	print_stack_b(&state);
-	while (get_move((char *)&user_input) != -1)
+	i = 0;
+	while (moves[i])
 	{
-		if (get_move_type(user_input) == MOVE_NOTHING)
+		move = moves[i++];
+		if (move == MOVE_NOTHING)
 		{
 			ft_printf("Error\n");
 			continue ;
 		}
-		apply_move(&state, get_move_type(user_input), 1, MOVE_PRINT_NOTHING);
+		apply_move(state, move, 1, MOVE_PRINT_NOTHING);
+	}
+	if (is_stack_sorted(state->stack_a))
+	{
+		print_stack_a(state);
+		print_stack_b(state);
+		ft_printf("OK\n");
+		exit_without_error(state);
+	}
+}
+
+int	main(int argc, char *argv[])
+{
+	t_state		state;
+	char		user_input[MAX_USER_INPUT_LENGTH];
+	int			n_moves;
+	t_move_type	*moves;
+
+	init_state(argc, argv, &state);
+	print_stack_a(&state);
+	print_stack_b(&state);
+	while (get_move_list((char *)&user_input, &moves, &n_moves) != -1)
+	{
+		ft_printf("\n=========================================\n");
+		apply_move_list(&state, moves);
+		ft_printf("KO\n");
+		free(moves);
 		print_stack_a(&state);
 		print_stack_b(&state);
-		if (is_stack_sorted(state.stack_a))
-		{
-			ft_printf("OK\n");
-			break ;
-		}
 	}
-	exit_without_error(&state);
 }
